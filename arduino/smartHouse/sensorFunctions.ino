@@ -9,8 +9,6 @@ void readBME()
 
 void readRTC()
 {    
-  while(true)
-  {
     DateTime now = rtc.now();         
     gSecond = now.second();
     gMinute = now.minute();
@@ -18,11 +16,4 @@ void readRTC()
     gDay = now.day();
     gDayName = now.dayOfTheWeek();
     gMounth = now.month();  
-    
-    if (gSecond >= 0 && gSecond <= 4)
-    {
-      break;
-    }
-    delay(3000);
-  }
 }
