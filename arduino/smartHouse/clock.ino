@@ -302,14 +302,14 @@ void backupClock()
   gSecond++;
   
   if (gSecond >= 60)
-  {   
+  {
     gSecond = 0;
     gMinute++;
     loadClockSegments(); 
     
-    if (gMinute == 30 || gMinute >= 60) // кожного дня зчитуються дані з RTC
-    { 
-      backupTimers();
+   if (gMinute % 30 == 0)
+   {
+      //backupTimers();
       byte tempHour = gHour;
       byte tempDay = gDay;
       byte tempMounth = gMounth; 
@@ -321,7 +321,7 @@ void backupClock()
        backupHour();
       }
 
-      if (MODE_HOME)
+      if (gMode == MODE_HOME)
       {
         if (tempMounth != gMounth)
         {
@@ -332,10 +332,10 @@ void backupClock()
         {
          backupDay();
         } 
-      }     
-    }
-    backupMinute();                  
-  }    
+      }
+   }      
+    backupMinute();  
+  }                   
 }
 
 void backupMinute()
@@ -436,4 +436,5 @@ void backupTimers()
   gTimerSensorBackup = gSecond;
   gTimerTick         = gSecond;
   gTimerClock        = gSecond;
+  gTimerLoadSensors  = gSecond; 
 }

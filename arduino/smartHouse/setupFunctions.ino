@@ -82,24 +82,19 @@ void setupMsTimer()
 
 void setupOneButton()
 {
-/*
-  buttOk.attachClick(click1);
-  buttOk.attachDoubleClick(doubleclick1);
-  buttOk.attachLongPressStart(longPressStart1);
-  buttOk.attachLongPressStop(longPressStop1);
-  buttOk.attachDuringLongPress(longPress1);
+  buttOk.attachClick(clickOk);
+  buttOk.attachDoubleClick(doubleclickOk);
+  buttOk.attachLongPressStart(longPressStartOk);
+  buttOk.attachLongPressStop(longPressStopOk);
 
-  // link the button 2 functions.
-  buttInc.attachClick(click2);
-  buttInc.attachDoubleClick(doubleclick2);
-  buttInc.attachLongPressStart(longPressStart2);
-  buttInc.attachLongPressStop(longPressStop2);
-  buttInc.attachDuringLongPress(longPress2);
+  buttInc.attachClick(clickInc);
+  buttInc.attachDoubleClick(doubleclickInc);
+  buttInc.attachLongPressStart(longPressStartInc);
+  buttInc.attachLongPressStop(longPressStopInc);
 
-  buttDec.attachClick(click3);
-  buttDec.attachDoubleClick(doubleclick3);
-  buttDec.attachLongPressStart(longPressStart3);
-  buttDec.attachLongPressStop(longPressStop3);
-  buttDec.attachDuringLongPress(longPress3);
-  */
+  buttDec.attachClick(clickDec);
+  buttDec.attachDoubleClick(doubleclickDec);
+  buttDec.attachLongPressStart(longPressStartDec);
+  buttDec.attachLongPressStop(longPressStopDec);
+  
 }

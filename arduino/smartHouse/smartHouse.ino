@@ -43,10 +43,11 @@ LiquidCrystal_I2C lcd(I2C_ADDR, 20, 4);
 // MsTimer ///////////////////////////
 #include <MsTimer2.h>
 
-#define ONE_SECOND 1000
+#define ONE_SECOND 990
 
 unsigned long gTotalSec;
 unsigned long gTimerSensorBackup; 
+unsigned long gTimerLoadSensors;
 unsigned long gTimerTick;
 unsigned long gTimerClock;
 
@@ -54,9 +55,28 @@ unsigned long gTimerClock;
 /////////////////////////////////////
 #include "OneButton.h"
 
-OneButton buttOk (4, false);  // confirm button 
-OneButton buttInc(5, false); // increment button (+)
-OneButton buttDec(6, false); // decrement button (-)
+#define BUTTON_OK_PIN   A0
+#define BUTTON_INC_PIN  5
+#define BUTTON_DEC_PIN  6
+
+OneButton buttOk (BUTTON_OK_PIN , false);  // confirm button 
+OneButton buttInc(5, false);  // increment button (+)
+OneButton buttDec(6, false);  // decrement button (-)
+
+bool isPressedButtOk     = 0;
+bool isDoublePressOk     = 0;
+bool isLongPressStartOk  = 0;
+bool isLongPressStopOk   = 0;
+
+bool isPressedButtInc    = 0;
+bool isDoublePressInc    = 0;
+bool isLongPressStartInc = 0;
+bool isLongPressStopInc  = 0;
+
+bool isPressedButtDec    = 0;
+bool isDoublePressDec    = 0;
+bool isLongPressStartDec = 0;
+bool isLongPressStopDec  = 0;
 
 // All sensors///////////////////////
 /////////////////////////////////////
@@ -65,14 +85,15 @@ OneButton buttDec(6, false); // decrement button (-)
 #define SENSORS_BACKUP  3    // (у секундах) зчитування з сенсорів
 #define TICK_TIME       1    // (у секундах) інтервал мигання точками
 
-bool showTick;
+bool showTick = 0;
 
-byte gMode;
-bool isHomeLoaded = 0;
+bool isHomeLoaded     = 0;
 bool isSettingsLoaded = 0;
 
 #define MODE_HOME      0
 #define MODE_SETTINGS  1
+
+byte gMode = MODE_HOME;
 
 ////////////////////////////////////
 void setup()
@@ -81,15 +102,12 @@ void setup()
   setupSerial();
   setupBME();
   setupRTC();
-
-  setupMsTimer();
-  
-  showTick = 0;
-  gMode = MODE_HOME;
-  //gMode = MODE_SETTINGS;
+  //setupOneButton();
 
   readBME();
   readRTC();
+  
+  setupMsTimer();
   loadHomeForm();
   loadSensors();
 }
@@ -108,9 +126,10 @@ void loop()
         isSettingsLoaded = 0;
       }
 
-      if (gTotalSec - gTimerClock >= ONE_SECOND / ONE_SECOND)
+      // виведення даних з сенсорів
+      if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW)
       {
-        gTimerClock += ONE_SECOND / ONE_SECOND;  
+        gTimerLoadSensors += SENSORS_SHOW;  
         loadSensors();  
       }
 
@@ -119,6 +138,7 @@ void loop()
     
     case MODE_SETTINGS:
     {
+      // заватнтаження форми
       if (!isSettingsLoaded)
       {
         loadSettingsForm();
@@ -126,7 +146,12 @@ void loop()
         isSettingsLoaded = 1;
       }
 
+      // виставлення курсору ">"
       setPointer();
+
+      // зчитання сигналу з кнопок
+      buttInc.tick();
+      buttDec.tick();
     }
     break;    
    }    
@@ -136,7 +161,7 @@ void loop()
   {           
     gTimerSensorBackup += SENSORS_SHOW;
     readBME();
-   } 
+  } 
 
   // мигання точками ":"
   if (gTotalSec - gTimerTick  >=  TICK_TIME)
@@ -146,9 +171,28 @@ void loop()
   }
 
   // оновлення даних годинника
-  if (gTotalSec - gTimerClock >= ONE_SECOND / ONE_SECOND)
+  if (gTotalSec - gTimerClock >= 1) // 1 sec
   {
-    gTimerClock += ONE_SECOND / ONE_SECOND;
+    gTimerClock += 1;
     backupClock();        
   }
+
+  // зчитання сигналу з OK кнопки
+  /////////////////////////////////
+ /* buttOk.tick();
+  
+  if (isPressedButtOk)
+  {
+    if (gMode == MODE_HOME)
+    {
+      gMode = MODE_SETTINGS;
+    }
+    else if (gMode == MODE_SETTINGS)
+    {
+      gMode = MODE_HOME;
+    }
+
+    isPressedButtOk = 0;
+  }
+  */
 }
