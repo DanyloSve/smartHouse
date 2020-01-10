@@ -34,19 +34,17 @@ void clickOk()
 
 void doubleclickOk()
 {
-  isDoublePressOk = 1;
+  gSettingsPointerCol = 0;
 }
 
 void longPressStartOk()
 {
-  isLongPressStartOk = 1;
-  isLongPressStopOk = 0;
+  gMode = MODE_HOME;
 }
 
 void longPressStopOk()
 {
-  isLongPressStartOk = 0;
-  isLongPressStopOk = 1;
+  //gMode = MODE_HOME;
 }
 
 // buttonInc

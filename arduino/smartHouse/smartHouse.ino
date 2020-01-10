@@ -1,7 +1,7 @@
 /*
- * void setup()
- * void loop()
- */
+   void setup()
+   void loop()
+*/
 // BME280//////////////////////////////
 ///////////////////////////////////////
 #include <Adafruit_Sensor.h>
@@ -46,7 +46,7 @@ LiquidCrystal_I2C lcd(I2C_ADDR, 20, 4);
 #define ONE_SECOND 990
 
 unsigned long gTotalSec;
-unsigned long gTimerSensorBackup; 
+unsigned long gTimerSensorBackup;
 unsigned long gTimerLoadSensors;
 unsigned long gTimerTick;
 unsigned long gTimerClock;
@@ -55,13 +55,18 @@ unsigned long gTimerClock;
 /////////////////////////////////////
 #include "OneButton.h"
 
-#define BUTTON_OK_PIN   A0
-#define BUTTON_INC_PIN  5
-#define BUTTON_DEC_PIN  6
+//#define BUTTON_OK_PIN   (A0)
+//#define BUTTON_INC_PIN  (A2)
+//#define BUTTON_DEC_PIN  (A1)
 
-OneButton buttOk (BUTTON_OK_PIN , false);  // confirm button 
-OneButton buttInc(5, false);  // increment button (+)
-OneButton buttDec(6, false);  // decrement button (-)
+OneButton buttOk (A0, false);  // confirm button
+OneButton buttInc(A1, false);  // increment button (+)
+OneButton buttDec(A2, false);  // decrement button (-)
+
+byte gSettingsPointerRow;
+byte gSettingsPointerCol;
+
+//OneButton button1(A0, false);
 
 bool isPressedButtOk     = 0;
 bool isDoublePressOk     = 0;
@@ -89,6 +94,7 @@ bool showTick = 0;
 
 bool isHomeLoaded     = 0;
 bool isSettingsLoaded = 0;
+bool isSettingsExit   = 0;
 
 #define MODE_HOME      0
 #define MODE_SETTINGS  1
@@ -102,97 +108,105 @@ void setup()
   setupSerial();
   setupBME();
   setupRTC();
-  //setupOneButton();
+  setupOneButton();
+/*  button1.attachClick(click1);
+  button1.attachDoubleClick(doubleclick1);
+  button1.attachLongPressStart(longPressStart1);
+  button1.attachLongPressStop(longPressStop1);
+  button1.attachDuringLongPress(longPress1);
+  */
 
   readBME();
   readRTC();
-  
+
   setupMsTimer();
   loadHomeForm();
   loadSensors();
 }
 
 void loop()
-{   
-   switch (gMode)
-   {
+{
+  // зчитання сигналу з OK кнопки
+  /////////////////////////////////
+  buttOk.tick();
+   
+  switch (gMode)
+  {
     case MODE_HOME:
-    {
-      // завантаження форми
-      if (!isHomeLoaded)
       {
-        loadHomeForm();
-        isHomeLoaded = 1;
-        isSettingsLoaded = 0;
-      }
+        // завантаження форми
+        if (!isHomeLoaded)
+        {
+          loadHomeForm();
+          isHomeLoaded = 1;
+          isSettingsLoaded = 0;
+        }
 
-      // виведення даних з сенсорів
-      if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW)
-      {
-        gTimerLoadSensors += SENSORS_SHOW;  
-        loadSensors();  
-      }
+        // виведення даних з сенсорів
+        if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW)
+        {
+          gTimerLoadSensors += SENSORS_SHOW;
+          loadSensors();
+        }
 
-    }      
-    break;
-    
+      }
+      break;
+
     case MODE_SETTINGS:
-    {
-      // заватнтаження форми
-      if (!isSettingsLoaded)
       {
-        loadSettingsForm();
-        isHomeLoaded = 0;
-        isSettingsLoaded = 1;
+        // заватнтаження форми
+        if (!isSettingsLoaded)
+        {
+          loadSettingsForm();
+          isHomeLoaded = 0;
+          isSettingsLoaded = 1;
+        }
+
+        // виставлення курсору ">"
+        setPointer();
+
+        // зчитання сигналу з кнопок
+        buttInc.tick();
+        buttDec.tick();
       }
+      break;
+  }
 
-      // виставлення курсору ">"
-      setPointer();
-
-      // зчитання сигналу з кнопок
-      buttInc.tick();
-      buttDec.tick();
-    }
-    break;    
-   }    
-  
   // оновлення даних з BME280
   if (gTotalSec - gTimerSensorBackup  >= SENSORS_SHOW)
-  {           
+  {
     gTimerSensorBackup += SENSORS_SHOW;
     readBME();
-  } 
+  }
 
   // мигання точками ":"
   if (gTotalSec - gTimerTick  >=  TICK_TIME)
   {
     gTimerTick += TICK_TIME;
-    tickClock();    
+    tickClock();
   }
 
   // оновлення даних годинника
   if (gTotalSec - gTimerClock >= 1) // 1 sec
   {
     gTimerClock += 1;
-    backupClock();        
+    backupClock();
   }
 
-  // зчитання сигналу з OK кнопки
-  /////////////////////////////////
- /* buttOk.tick();
+  //button1.tick();
   
-  if (isPressedButtOk)
-  {
-    if (gMode == MODE_HOME)
-    {
-      gMode = MODE_SETTINGS;
-    }
-    else if (gMode == MODE_SETTINGS)
-    {
-      gMode = MODE_HOME;
-    }
 
-    isPressedButtOk = 0;
-  }
-  */
+    if (isPressedButtOk)
+    {
+     if (gMode == MODE_HOME)
+     {
+       gMode = MODE_SETTINGS;
+       isPressedButtOk = 0;
+     }
+     else if (gMode == MODE_SETTINGS && isSettingsExit)
+     {
+       gMode = MODE_HOME;
+       isPressedButtOk = 0;
+     }
+    }
 }

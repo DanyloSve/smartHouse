@@ -37,10 +37,10 @@ Button 2 longPress stop
 #include <MsTimer2.h>
 
 // Setup a new OneButton on pin A1.  
-OneButton button1(4, false);
+OneButton button1(A0, false);
 // Setup a new OneButton on pin A2.  
-OneButton button2(5, false);
-OneButton button3(6, false);
+//OneButton button2(5, false);
+//OneButton button3(6, false);
 
 // setup code here, to run once:
 void setup() {
@@ -59,7 +59,7 @@ void setup() {
   button1.attachDuringLongPress(longPress1);
 
   // link the button 2 functions.
-  button2.attachClick(click2);
+ /* button2.attachClick(click2);
   button2.attachDoubleClick(doubleclick2);
   button2.attachLongPressStart(longPressStart2);
   button2.attachLongPressStop(longPressStop2);
@@ -70,7 +70,7 @@ void setup() {
   button3.attachLongPressStart(longPressStart3);
   button3.attachLongPressStop(longPressStop3);
   button3.attachDuringLongPress(longPress3);
-
+*/
 } // setup
 
 
@@ -79,8 +79,8 @@ void loop()
 {
   // keep watching the push buttons:
   button1.tick();
-  button2.tick();
-  button3.tick();
+  //button2.tick();
+  //button3.tick();
 
 } // loop
 

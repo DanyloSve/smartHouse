@@ -82,11 +82,12 @@ void setupMsTimer()
 
 void setupOneButton()
 {
+ 
   buttOk.attachClick(clickOk);
   buttOk.attachDoubleClick(doubleclickOk);
   buttOk.attachLongPressStart(longPressStartOk);
   buttOk.attachLongPressStop(longPressStopOk);
-
+/*
   buttInc.attachClick(clickInc);
   buttInc.attachDoubleClick(doubleclickInc);
   buttInc.attachLongPressStart(longPressStartInc);
@@ -96,5 +97,6 @@ void setupOneButton()
   buttDec.attachDoubleClick(doubleclickDec);
   buttDec.attachLongPressStart(longPressStartDec);
   buttDec.attachLongPressStop(longPressStopDec);
+  */
   
 }
