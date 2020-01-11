@@ -6,7 +6,9 @@
 #define SETTINGS_UPPER_LINE_END_COL       14
 #define SETTINGS_UPPER_LINE_ROW           0
 
-#define SETTINGS_HORIZONTAL_LINE
+#define SETTINGS_HORIZONTAL_LINE_BEGIN_ROW 1
+#define SETTINGS_HORIZONTAL_LINE_END_ROW   3
+//#define SETTINGS_HORIZONTAL_LINE_COL       7//-----------------
 
 
 uint8_t LEFT_POINTER[8] = {
@@ -51,11 +53,13 @@ void loadSegments()
 
 void loadSettingsForm()
 {
+  lcd.noCursor();
+  lcd.clear();
+  
   gSettingsPointerRow = 1;
   gSettingsPointerCol = 0;
   
   loadSegments();                                   
-  lcd.clear();
   
   lcd.setCursor(0,0);
   lcd.print(F("SETTINGS"));
@@ -69,7 +73,12 @@ void loadSettingsForm()
   backupTimers();
   backupMinute();
   backupHour();
+  
+  loadNames();
+}
 
+void loadNames()
+{
   lcd.setCursor(1, 1);
   lcd.print(F("Date"));
   lcd.setCursor(1, 2);
@@ -78,9 +87,41 @@ void loadSettingsForm()
   lcd.print(F("EXIT"));
 }
 
+void clearAdjustMenu()
+{
+  #define EMPTY_BAR 32 
+  
+  for (byte i = 2; i <= 19; i++)
+  {
+    for (byte j = 1; j <= 3; j++)////-------------
+    {
+      lcd.setCursor(i, j);
+      lcd.write(EMPTY_BAR);
+    }
+  }
+}
+
 void adjustRTCTime()
 {
-  rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  clearAdjustMenu();
+  lcd.setCursor(8, 1);
+
+  // годинник
+  if (gHour < 10)
+  {
+    lcd.print(0);
+  }
+
+  lcd.print(gHour);
+  lcd.print(":");
+  
+  if (gMinute < 10)
+  {
+    lcd.print(0);
+  }
+  lcd.print(gMinute);
+
+  //rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
 }
 
 void adjustSensors()
@@ -101,13 +142,13 @@ void loadSettingsMenu()
   lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
   lcd.write(0);
 
-  for (byte i = 1; i <= 3; i++)
+  for (byte i = SETTINGS_HORIZONTAL_LINE_BEGIN_ROW; i <= SETTINGS_HORIZONTAL_LINE_END_ROW; i++)
   {
-    if (i == gSettingsPointerRow && gSettingsPointerCol == 7)
+    if (i == gSettingsPointerRow && gSettingsPointerCol == SETTINGS_HORIZONTAL_LINE_COL)
     {
       continue;
     }
-    lcd.setCursor(7, i);
+    lcd.setCursor(SETTINGS_HORIZONTAL_LINE_COL, i);
     lcd.write(1);
   }
 }

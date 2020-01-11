@@ -26,6 +26,7 @@ void readRTC()
   }
 }
 
+byte SETTINGS_HORIZONTAL_LINE_COL    =   7;//------------------
 // buttonOK
 void clickOk()
 {
@@ -46,9 +47,15 @@ void clickOk()
         // налаштування дати
         case MODE_SETTINGS_ADJUST_DATE_ROW : 
         {
-          gSettingsPointerCol = SETTINGS_ADJUST_SENSOR_COL;
+          //gSettingsPointerCol = SETTINGS_ADJUST_SENSOR_COL;
+          gSettingsPointerCol = 2;//-----------------
           gMode = MODE_SETTINGS_ADJUST_DATE;
-          loadSettingsMenu();  
+
+          SETTINGS_HORIZONTAL_LINE_COL = 2;//----------------
+          adjustRTCTime();
+          loadSettingsMenu(); 
+          //adjustRTCTime();
+          SETTINGS_HORIZONTAL_LINE_COL = 7;//---------------
         }
         break;
 
@@ -61,6 +68,7 @@ void clickOk()
         }
         break;
 
+        // вихід з меню налаштувань
         case EXIT_SETTING_MODE_ROW:
         {
           gMode = MODE_HOME;
@@ -75,6 +83,10 @@ void doubleclickOk()
 {
   gSettingsPointerCol = SETTINGS_CHOSE_SENSOR_COL;
   gMode = MODE_SETTINGS;
+  
+  clearAdjustMenu();//-----------
+  
+  loadNames();
   loadSettingsMenu();
 }
 
