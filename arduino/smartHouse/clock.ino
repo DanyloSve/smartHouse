@@ -344,7 +344,7 @@ void backupMinute()
   {
     convertToBigNumber(gMinute, HOME_MINUTES_COL, HOME_MINUTES_ROW); // виведення хвилин 
   }
-  else if (gMode == MODE_SETTINGS)
+  else //if (gMode == MODE_SETTINGS)
   {
     lcd.setCursor(SETTINGS_MINUTES_COL, SETTINGS_MINUTES_ROW);
     if (gMinute < 10)
@@ -419,7 +419,7 @@ void tickClock()
       lcd.write(EMPTY_BAR);
     }
   }
-  else if (gMode == MODE_SETTINGS)
+  else //if (gMode == MODE_SETTINGS)
   {
     if (gShowTick)
     {
