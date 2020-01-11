@@ -63,11 +63,17 @@ OneButton buttOk (A0, false);  // confirm button
 OneButton buttInc(A1, false);  // increment button (+)
 OneButton buttDec(A2, false);  // decrement button (-)
 
+#define MODE_SETTINGS_ADJUST_DATE_ROW   1
+#define MODE_SETTINGS_ADJUST_SENS_ROW   2
+#define EXIT_SETTING_MODE_ROW           3
+#define SETTINGS_CHOSE_SENSOR_COL  0
+#define SETTINGS_ADJUST_SENSOR_COL 7
+
 byte gSettingsPointerRow;
 byte gSettingsPointerCol;
 
 //OneButton button1(A0, false);
-
+/*
 bool isPressedButtOk     = 0;
 bool isDoublePressOk     = 0;
 bool isLongPressStartOk  = 0;
@@ -82,6 +88,7 @@ bool isPressedButtDec    = 0;
 bool isDoublePressDec    = 0;
 bool isLongPressStartDec = 0;
 bool isLongPressStopDec  = 0;
+*/
 
 // All sensors///////////////////////
 /////////////////////////////////////
@@ -90,14 +97,17 @@ bool isLongPressStopDec  = 0;
 #define SENSORS_BACKUP  3    // (у секундах) зчитування з сенсорів
 #define TICK_TIME       1    // (у секундах) інтервал мигання точками
 
-bool showTick = 0;
+bool gShowTick = 0;
 
 bool isHomeLoaded     = 0;
 bool isSettingsLoaded = 0;
 bool isSettingsExit   = 0;
 
-#define MODE_HOME      0
-#define MODE_SETTINGS  1
+#define MODE_HOME                 0
+#define MODE_SETTINGS_ADJUST_DATE 1
+#define MODE_SETTINGS_ADJUST_SENS 2
+//#define EXIT_SETTING_MODE         3
+#define MODE_SETTINGS             4
 
 byte gMode = MODE_HOME;
 
@@ -109,12 +119,6 @@ void setup()
   setupBME();
   setupRTC();
   setupOneButton();
-/*  button1.attachClick(click1);
-  button1.attachDoubleClick(doubleclick1);
-  button1.attachLongPressStart(longPressStart1);
-  button1.attachLongPressStop(longPressStop1);
-  button1.attachDuringLongPress(longPress1);
-  */
 
   readBME();
   readRTC();
@@ -128,50 +132,24 @@ void loop()
 {
   // зчитання сигналу з OK кнопки
   /////////////////////////////////
-  buttOk.tick();
    
-  switch (gMode)
-  {
-    case MODE_HOME:
-      {
-        // завантаження форми
-        if (!isHomeLoaded)
-        {
-          loadHomeForm();
-          isHomeLoaded = 1;
-          isSettingsLoaded = 0;
-        }
-
-        // виведення даних з сенсорів
-        if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW)
-        {
-          gTimerLoadSensors += SENSORS_SHOW;
-          loadSensors();
-        }
-
-      }
-      break;
-
-    case MODE_SETTINGS:
-      {
-        // заватнтаження форми
-        if (!isSettingsLoaded)
-        {
-          loadSettingsForm();
-          isHomeLoaded = 0;
-          isSettingsLoaded = 1;
-        }
-
-        // виставлення курсору ">"
-        setPointer();
-
-        // зчитання сигналу з кнопок
-        buttInc.tick();
-        buttDec.tick();
-      }
-      break;
-  }
-
+    if(gMode ==  MODE_HOME)
+    {
+     // виведення даних з сенсорів
+     if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW)
+     {
+       gTimerLoadSensors += SENSORS_SHOW;
+       loadSensors();
+     }
+    }      
+    else
+    { 
+     // зчитання сигналу з кнопок
+     loadSegments();
+     buttInc.tick();
+     buttDec.tick();
+    }
+  
   // оновлення даних з BME280
   if (gTotalSec - gTimerSensorBackup  >= SENSORS_SHOW)
   {
@@ -193,20 +171,5 @@ void loop()
     backupClock();
   }
 
-  //button1.tick();
-  
-
-    if (isPressedButtOk)
-    {
-     if (gMode == MODE_HOME)
-     {
-       gMode = MODE_SETTINGS;
-       isPressedButtOk = 0;
-     }
-     else if (gMode == MODE_SETTINGS && isSettingsExit)
-     {
-       gMode = MODE_HOME;
-       isPressedButtOk = 0;
-     }
-    }
+  buttOk.tick();
 }

@@ -364,6 +364,11 @@ void backupHour()
   else if (gMode == MODE_SETTINGS)
   {
     lcd.setCursor(SETTINGS_HOURS_COL, SETTINGS_HOURS_ROW);
+    if (gHour < 10)
+    {
+      lcd.print(0);
+    }
+    
     lcd.print(gHour);
   }
 }
@@ -399,7 +404,7 @@ void tickClock()
   
   if (gMode == MODE_HOME)
   {
-    if (showTick)
+    if (gShowTick)
     {
       lcd.setCursor(HOME_TICK_DOTS_COL, HOME_TICK_UPPER_DOT_ROW);
       lcd.write(HOME_TICK_DOT_NUMBER);
@@ -416,7 +421,7 @@ void tickClock()
   }
   else if (gMode == MODE_SETTINGS)
   {
-    if (showTick)
+    if (gShowTick)
     {
       lcd.setCursor(SETTINGS_TICK_DOTS_COL, SETTINGS_TICK_DOTS_ROW);
       lcd.print(":");
@@ -427,7 +432,7 @@ void tickClock()
       lcd.write(EMPTY_BAR);
     }
   }
-  showTick = !showTick;
+  gShowTick = !gShowTick;
 }
 
 void backupTimers()

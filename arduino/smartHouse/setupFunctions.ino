@@ -86,7 +86,6 @@ void setupOneButton()
   buttOk.attachClick(clickOk);
   buttOk.attachDoubleClick(doubleclickOk);
   buttOk.attachLongPressStart(longPressStartOk);
-  buttOk.attachLongPressStop(longPressStopOk);
 /*
   buttInc.attachClick(clickInc);
   buttInc.attachDoubleClick(doubleclickInc);
