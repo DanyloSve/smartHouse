@@ -71,21 +71,13 @@ void loadSettingsForm()
   backupHour();
 
   lcd.setCursor(1, 1);
-  lcd.print(F("Clock"));
+  lcd.print(F("Date"));
   lcd.setCursor(1, 2);
   lcd.print(F("Sensors"));
   lcd.setCursor(1, 3);
   lcd.print(F("EXIT"));
 }
-void drawUpperLine()
-{
-  
-}
 
-void drawHorizontalLine()
-{
-  
-}
 void adjustRTCTime()
 {
   rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
@@ -96,13 +88,13 @@ void adjustSensors()
   lcd.print(F(""));
 }
 
-void settingsMenu()
+void loadSettingsMenu()
 {
   loadSegments();
 
   if (gMode == MODE_SETTINGS_ADJUST_DATE || gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-    lcd.setCursor(0, 1);
+    lcd.setCursor(SETTINGS_CHOSE_SENSOR_COL, gSettingsPointerRow);
     lcd.write(3);
   }
   

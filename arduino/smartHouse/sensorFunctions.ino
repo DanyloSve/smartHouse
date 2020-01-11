@@ -34,7 +34,7 @@ void clickOk()
     {
       gMode = MODE_SETTINGS;
       loadSettingsForm();
-      settingsMenu(); 
+      loadSettingsMenu(); 
       return; 
     }
 
@@ -48,7 +48,7 @@ void clickOk()
         {
           gSettingsPointerCol = SETTINGS_ADJUST_SENSOR_COL;
           gMode = MODE_SETTINGS_ADJUST_DATE;
-          settingsMenu();  
+          loadSettingsMenu();  
         }
         break;
 
@@ -57,7 +57,7 @@ void clickOk()
         {
           gSettingsPointerCol = SETTINGS_ADJUST_SENSOR_COL;
           gMode = MODE_SETTINGS_ADJUST_SENS;
-          settingsMenu();  
+          loadSettingsMenu();  
         }
         break;
 
@@ -75,7 +75,7 @@ void doubleclickOk()
 {
   gSettingsPointerCol = SETTINGS_CHOSE_SENSOR_COL;
   gMode = MODE_SETTINGS;
-  settingsMenu();
+  loadSettingsMenu();
 }
 
 void longPressStartOk()
@@ -91,7 +91,23 @@ void longPressStartOk()
 // buttonInc
 void clickInc()
 {
-  //isPressedButtInc = 1;
+  if (gMode == MODE_SETTINGS)
+  {
+    #define EMPTY_BAR 32
+   
+    lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
+    lcd.write(EMPTY_BAR);
+    
+    if (gSettingsPointerRow == EXIT_SETTING_MODE_ROW)
+    {
+      gSettingsPointerRow = MODE_SETTINGS_ADJUST_DATE_ROW;
+    }
+    else
+    {
+      gSettingsPointerRow++;
+    }
+    loadSettingsMenu();
+  }
 }
 
 void doubleclickInc()
@@ -115,7 +131,23 @@ void longPressStopInc()
 // buttonDec
 void clickDec()
 {
-//  isPressedButtDec = 1;
+  if (gMode == MODE_SETTINGS)
+  {
+    #define EMPTY_BAR 32
+   
+    lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
+    lcd.write(EMPTY_BAR);
+    
+    if (gSettingsPointerRow == MODE_SETTINGS_ADJUST_DATE_ROW)
+    {
+      gSettingsPointerRow = EXIT_SETTING_MODE_ROW;
+    }
+    else
+    {
+      gSettingsPointerRow--;
+    }
+    loadSettingsMenu();
+  }
 }
 
 void doubleclickDec()
