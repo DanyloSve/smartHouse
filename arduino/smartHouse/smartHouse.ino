@@ -16,6 +16,10 @@ double gHum;
 double gPres;
 double gAlt; // altitude
 
+double gTempArr[24];
+double gHumArr[24];
+double gPressArr[24];
+
 // DS3231 RTC/////////////////////////
 ///////////////////////////////////////
 #include <Wire.h>
@@ -29,8 +33,9 @@ byte gHour;
 byte gMinute;
 byte gSecond;
 byte gDay;
-byte gMounth;
+byte gMonth;
 byte gDayName;
+int gYear;
 
 // LCD 2004c I2C//////////////////////
 //////////////////////////////////////
@@ -66,11 +71,12 @@ OneButton buttDec(A2, false);  // decrement button (-)
 #define MODE_SETTINGS_ADJUST_DATE_ROW   1
 #define MODE_SETTINGS_ADJUST_SENS_ROW   2
 #define EXIT_SETTING_MODE_ROW           3
-#define SETTINGS_CHOSE_SENSOR_COL  0
-#define SETTINGS_ADJUST_SENSOR_COL 7
+#define SETTINGS_CHOISE_COL             0
+#define SETTINGS_ADJUSTMENT_COL         7
 
 byte gSettingsPointerRow;
 byte gSettingsPointerCol;
+byte gSettingsConfirmAdjustment = 0;
 
 //OneButton button1(A0, false);
 /*
@@ -106,7 +112,6 @@ bool isSettingsExit   = 0;
 #define MODE_HOME                 0
 #define MODE_SETTINGS_ADJUST_DATE 1
 #define MODE_SETTINGS_ADJUST_SENS 2
-//#define EXIT_SETTING_MODE         3
 #define MODE_SETTINGS             4
 
 byte gMode = MODE_HOME;

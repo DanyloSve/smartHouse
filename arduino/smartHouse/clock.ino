@@ -245,7 +245,7 @@ void printBigNum(byte number, byte startCol, byte startRow)
     case 9:
       lcd.setCursor(startCol, startRow);
       lcd.write(0);
-      lcd.write(1);
+      lcd.write(6);
       lcd.write(2);
       lcd.setCursor(startCol, startRow + 1);
       lcd.write(7);
@@ -309,10 +309,10 @@ void backupClock()
     
    if (gMinute % 30 == 0)
    {
-      //backupTimers();
+      backupTimers();
       byte tempHour = gHour;
       byte tempDay = gDay;
-      byte tempMounth = gMounth; 
+      byte tempMonth = gMonth; 
           
       readRTC();
 
@@ -323,7 +323,7 @@ void backupClock()
 
       if (gMode == MODE_HOME)
       {
-        if (tempMounth != gMounth)
+        if (tempMonth != gMonth)
         {
          backupMonth();
         }
@@ -376,11 +376,11 @@ void backupHour()
 void backupMonth()
 {
   lcd.setCursor(HOME_MONTH_COL, HOME_MONTH_ROW);
-  if (gMounth < 10)
+  if (gMonth < 10)
   {
     lcd.print(0);
   }
-  lcd.print(gMounth);
+  lcd.print(gMonth);
 }
 
 void backupDay()

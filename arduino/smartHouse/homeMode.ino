@@ -15,7 +15,7 @@
 void loadHomeForm()
 {
   lcd.clear();
-  lcd.noCursor();
+  //lcd.noCursor();
   
   // температура  
   lcd.setCursor(HOME_TEMP_COL + 5, HOME_TEMP_ROW);

@@ -1,3 +1,7 @@
+/*
+ * void doubleclickOk() - при виході зберігає зміни, переходить до МЕНЮ ВИБОРУ
+ * void longPressStartOk() - при виході зміни НЕ зберігає, перехадить на ДОМАШНІЙ РЕЖИМ
+ */
 void readBME()
 {
   bme.takeForcedMeasurement();
@@ -17,7 +21,8 @@ void readRTC()
     gHour = now.hour();
     gDay = now.day();
     gDayName = now.dayOfTheWeek();
-    gMounth = now.month(); 
+    gMonth = now.month();
+    gYear = now.year(); 
 
     if (gSecond >= 0 && gSecond <= 5)
     {
@@ -26,10 +31,11 @@ void readRTC()
   }
 }
 
-byte SETTINGS_HORIZONTAL_LINE_COL    =   7;//------------------
 // buttonOK
 void clickOk()
-{
+{   
+    // заватнтаження користувацьких сегментів для меню
+    loadSegments();
     // якщо початковий, "домашній" режим, то переходимо до налаштувань
     if (gMode == MODE_HOME) 
     {
@@ -40,30 +46,30 @@ void clickOk()
     }
 
     // режим налаштування
-    if (gMode == MODE_SETTINGS) 
+    else if (gMode == MODE_SETTINGS) 
     {
+      // відслідковування 'вказівника' (повзунка)
       switch(gSettingsPointerRow)
       {
         // налаштування дати
         case MODE_SETTINGS_ADJUST_DATE_ROW : 
         {
-          //gSettingsPointerCol = SETTINGS_ADJUST_SENSOR_COL;
-          gSettingsPointerCol = 2;//-----------------
+          gSettingsPointerCol = SETTINGS_ADJUSTMENT_COL;
           gMode = MODE_SETTINGS_ADJUST_DATE;
 
-          SETTINGS_HORIZONTAL_LINE_COL = 2;//----------------
-          adjustRTCTime();
+          adjustRTCtimeForm(); 
           loadSettingsMenu(); 
-          //adjustRTCTime();
-          SETTINGS_HORIZONTAL_LINE_COL = 7;//---------------
+          adjustRTCtime();   
+    
         }
         break;
-
+        
         // налаштування сенсорів (BME)
         case MODE_SETTINGS_ADJUST_SENS_ROW : 
         {
-          gSettingsPointerCol = SETTINGS_ADJUST_SENSOR_COL;
+          gSettingsPointerCol = SETTINGS_ADJUSTMENT_COL;
           gMode = MODE_SETTINGS_ADJUST_SENS;
+          adjustSensorForm();
           loadSettingsMenu();  
         }
         break;
@@ -76,17 +82,46 @@ void clickOk()
         }
         break;
       } 
-    }  
+    }
+    
+    // якщо такий режим, то переходимо до наступної цифри, що маємо змінити у даному режимі
+    else if (gMode == MODE_SETTINGS_ADJUST_DATE )
+    {
+      gSettingsConfirmAdjustment++;
+      adjustRTCtime();  
+    }
+
+    // якщо такий режим, то переходимо до наступної цифри, що маємо змінити у даному режимі
+    else if (gMode == MODE_SETTINGS_ADJUST_SENS)
+    {
+      gSettingsConfirmAdjustment++;
+      adjustSensorForm();
+    }
+    
 }
 
 void doubleclickOk()
 {
-  gSettingsPointerCol = SETTINGS_CHOSE_SENSOR_COL;
+  // перехід до меню вибору налаштувань(Date, Sensor, EXIT)
+
+  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  {
+    gSettingsConfirmAdjustment = 12;
+    adjustRTCtime();
+  }
+  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
+  {
+      
+  }
+
+  
+  gSettingsPointerCol = SETTINGS_CHOISE_COL;
+  gSettingsConfirmAdjustment = 0;
   gMode = MODE_SETTINGS;
   
-  clearAdjustMenu();//-----------
+  clearAdjustMenu();
   
-  loadNames();
+  loadMenuOptions();
   loadSettingsMenu();
 }
 
@@ -106,10 +141,11 @@ void clickInc()
   if (gMode == MODE_SETTINGS)
   {
     #define EMPTY_BAR 32
-   
+   // зачищення місця, де був повзунок 
     lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
     lcd.write(EMPTY_BAR);
-    
+
+    // якщо повзунок на найнижчому варіанті вибору, то переводимо на перший
     if (gSettingsPointerRow == EXIT_SETTING_MODE_ROW)
     {
       gSettingsPointerRow = MODE_SETTINGS_ADJUST_DATE_ROW;
@@ -119,6 +155,11 @@ void clickInc()
       gSettingsPointerRow++;
     }
     loadSettingsMenu();
+  }
+  
+  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  {
+    
   }
 }
 
@@ -146,10 +187,11 @@ void clickDec()
   if (gMode == MODE_SETTINGS)
   {
     #define EMPTY_BAR 32
-   
+   // зачищення місця, де був повзунок 
     lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
     lcd.write(EMPTY_BAR);
-    
+
+    // якщо повзунок на найнижчому варіанті вибору, то переводимо на перший
     if (gSettingsPointerRow == MODE_SETTINGS_ADJUST_DATE_ROW)
     {
       gSettingsPointerRow = EXIT_SETTING_MODE_ROW;
@@ -159,6 +201,10 @@ void clickDec()
       gSettingsPointerRow--;
     }
     loadSettingsMenu();
+  }
+  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  {
+    
   }
 }
 
