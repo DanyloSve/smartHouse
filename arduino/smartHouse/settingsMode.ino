@@ -274,11 +274,6 @@ void loadSettingsForm()
   gAdjustingMonth = gMonth;
   gAdjustingYear = gYear;
   
-  loadMenuOptions();
-}
-
-void loadMenuOptions()
-{
   lcd.setCursor(1, 1);
   lcd.print(F("Date"));
   lcd.setCursor(1, 2);
@@ -572,10 +567,9 @@ void adjustSensor()
 void adjustSensorForm()
 {
   lcd.setCursor(8, 1);
-  //lcd.print(F("Freaquency"));
-  lcd.print(F("Time Domain")); // часовий проміжок
+  lcd.print(F("Time Domain"));   // часовий проміжок 
   lcd.setCursor(8, 3);
-  lcd.print(F("Number"));
+  lcd.print(F("Number")); 
 }
 
 void loadSettingsMenu()

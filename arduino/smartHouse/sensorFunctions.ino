@@ -120,8 +120,7 @@ void doubleclickOk()
   gMode = MODE_SETTINGS;
   
   clearAdjustMenu();
-  
-  loadMenuOptions();
+
   loadSettingsMenu();
 }
 
