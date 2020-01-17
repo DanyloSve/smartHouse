@@ -307,7 +307,7 @@ void backupClock()
     gMinute++;
     loadClockSegments(); 
     
-   if (gMinute % 30 == 0)
+   if (gMinute % CALIBRATE_CLOCK_MIN == 0) //через кожні CALIBRATE_CLOCK_MIN хв проходить "коррекція годдиник"- зчтування з RTC
    {
       backupTimers();
       byte tempHour = gHour;

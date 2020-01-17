@@ -76,7 +76,7 @@ void setupLCD()
 
 void setupMsTimer()
 {
-  MsTimer2::set(ONE_SECOND, toTimer); // Здесь задаем период 1 секунда
+  MsTimer2::set(ONE_SECOND_MILLI_SEC, toTimer); // Здесь задаем период 1 секунда
   MsTimer2::start();
 }
 
@@ -88,18 +88,8 @@ void setupOneButton()
   buttOk.attachLongPressStart(longPressStartOk);
 
   buttInc.attachClick(clickInc);
-  /*
-  buttInc.attachDoubleClick(doubleclickInc);
-  buttInc.attachLongPressStart(longPressStartInc);
-  buttInc.attachLongPressStop(longPressStopInc);
-  */
 
-  buttDec.attachClick(clickDec);
-  /*
-  buttDec.attachDoubleClick(doubleclickDec);
-  buttDec.attachLongPressStart(longPressStartDec);
-  buttDec.attachLongPressStop(longPressStopDec);
-  */
-  
-  
+  buttInc.attachLongPressStart(longPressStartIncOrDec);
+
+  buttDec.attachClick(clickDec);  
 }

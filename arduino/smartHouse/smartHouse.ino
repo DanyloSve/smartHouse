@@ -35,7 +35,7 @@ byte gSecond;
 byte gDay;
 byte gMonth;
 byte gDayName;
-int gYear;
+int  gYear;
 
 // LCD 2004c I2C//////////////////////
 //////////////////////////////////////
@@ -48,7 +48,8 @@ LiquidCrystal_I2C lcd(I2C_ADDR, 20, 4);
 // MsTimer ///////////////////////////
 #include <MsTimer2.h>
 
-#define ONE_SECOND 990
+#define ONE_SECOND_MILLI_SEC  996
+#define CALIBRATE_CLOCK_MIN 15
 
 unsigned long gTotalSec;
 unsigned long gTimerSensorBackup;
@@ -65,12 +66,13 @@ unsigned long gTimerClock;
 //#define BUTTON_DEC_PIN  (A1)
 
 OneButton buttOk (A0, false);  // confirm button
-OneButton buttInc(A1, false);  // increment button (+)
-OneButton buttDec(A2, false);  // decrement button (-)
+OneButton buttInc(A2, false);  // increment button (+)
+OneButton buttDec(A1, false);  // decrement button (-)
 
 #define MODE_SETTINGS_ADJUST_DATE_ROW   1
 #define MODE_SETTINGS_ADJUST_SENS_ROW   2
 #define EXIT_SETTING_MODE_ROW           3
+
 #define SETTINGS_CHOISE_COL             0
 #define SETTINGS_ADJUSTMENT_COL         7
 
@@ -78,30 +80,20 @@ byte gSettingsPointerRow;
 byte gSettingsPointerCol;
 byte gSettingsConfirmAdjustment = 0;
 
-//OneButton button1(A0, false);
-/*
-bool isPressedButtOk     = 0;
-bool isDoublePressOk     = 0;
-bool isLongPressStartOk  = 0;
-bool isLongPressStopOk   = 0;
+int *gpSettingsAdjustValue;
 
-bool isPressedButtInc    = 0;
-bool isDoublePressInc    = 0;
-bool isLongPressStartInc = 0;
-bool isLongPressStopInc  = 0;
-
-bool isPressedButtDec    = 0;
-bool isDoublePressDec    = 0;
-bool isLongPressStartDec = 0;
-bool isLongPressStopDec  = 0;
-*/
+int gAdjustingHour;
+int gAdjustingMinute;
+int gAdjustingDay;
+int gAdjustingMonth;
+int gAdjustingYear;
 
 // All sensors///////////////////////
 /////////////////////////////////////
 // у секундах
-#define SENSORS_SHOW    3    // (у секундах) оновлення показу сенсорів 
-#define SENSORS_BACKUP  3    // (у секундах) зчитування з сенсорів
-#define TICK_TIME       1    // (у секундах) інтервал мигання точками
+#define SENSORS_SHOW_SEC    3    // (у секундах) оновлення показу сенсорів 
+#define SENSORS_BACKUP_SEC  3    // (у секундах) зчитування з сенсорів
+#define TICK_TIME_SEC       1    // (у секундах) інтервал мигання точками
 
 bool gShowTick = 0;
 
@@ -141,9 +133,9 @@ void loop()
     if(gMode ==  MODE_HOME)
     {
      // виведення даних з сенсорів
-     if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW)
+     if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW_SEC)
      {
-       gTimerLoadSensors += SENSORS_SHOW;
+       gTimerLoadSensors += SENSORS_SHOW_SEC;
        loadSensors();
      }
     }      
@@ -156,16 +148,16 @@ void loop()
     }
   
   // оновлення даних з BME280
-  if (gTotalSec - gTimerSensorBackup  >= SENSORS_SHOW)
+  if (gTotalSec - gTimerSensorBackup  >= SENSORS_SHOW_SEC)
   {
-    gTimerSensorBackup += SENSORS_SHOW;
+    gTimerSensorBackup += SENSORS_SHOW_SEC;
     readBME();
   }
 
   // мигання точками ":"
-  if (gTotalSec - gTimerTick  >=  TICK_TIME)
+  if (gTotalSec - gTimerTick  >=  TICK_TIME_SEC)
   {
-    gTimerTick += TICK_TIME;
+    gTimerTick += TICK_TIME_SEC;
     tickClock();
   }
 

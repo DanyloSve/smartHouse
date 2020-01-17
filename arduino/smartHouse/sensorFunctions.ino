@@ -88,14 +88,14 @@ void clickOk()
     else if (gMode == MODE_SETTINGS_ADJUST_DATE )
     {
       gSettingsConfirmAdjustment++;
-      adjustRTCtime();  
+      adjustRTCtime();  // оновлюємо меню adjustSensorForm
     }
 
     // якщо такий режим, то переходимо до наступної цифри, що маємо змінити у даному режимі
     else if (gMode == MODE_SETTINGS_ADJUST_SENS)
     {
       gSettingsConfirmAdjustment++;
-      adjustSensorForm();
+      adjustSensorForm(); // оновлюємо меню adjustSensorForm
     }
     
 }
@@ -113,7 +113,6 @@ void doubleclickOk()
   {
       
   }
-
   
   gSettingsPointerCol = SETTINGS_CHOISE_COL;
   gSettingsConfirmAdjustment = 0;
@@ -145,6 +144,99 @@ void clickInc()
     lcd.write(EMPTY_BAR);
 
     // якщо повзунок на найнижчому варіанті вибору, то переводимо на перший
+    if (gSettingsPointerRow == MODE_SETTINGS_ADJUST_DATE_ROW)
+    {
+      gSettingsPointerRow = EXIT_SETTING_MODE_ROW;;
+    }
+    else
+    {
+      gSettingsPointerRow--;
+    }
+    loadSettingsMenu();
+  }
+  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  {
+    *gpSettingsAdjustValue += 1;; 
+    adjustRTCtime();
+  }
+  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
+  {
+    *gpSettingsAdjustValue += 1; 
+    adjustSensorForm();
+  }
+}
+
+
+void longPressStartIncOrDec() // повертає попереднє значення години, хвилин і тд
+{
+  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  {
+    switch (gSettingsConfirmAdjustment)
+    {
+      // час hh:mm //////////////////////////////////////////////////////////////////
+      // години
+      case 0:
+      case 1:
+      {    
+        gAdjustingHour = gHour;
+      }
+      break;
+      
+      // хвилини 
+      case 2:  
+      case 3:
+      {
+        gAdjustingMinute = gMinute;
+      }
+      break;
+  
+      // дата dd/mm/yyyy ////////////////////////////////////////////////////
+      
+      // день
+      case 4:
+      case 5:
+      {
+        gAdjustingDay = gDay;
+      }
+      break;
+  
+      // місяць
+      case 6:    
+      case 7:
+      {
+        gAdjustingMonth = gMonth;
+      }
+      break;
+  
+      // рік
+      case 8:
+      case 9:
+      case 10:  
+      case 11:
+      {
+        gAdjustingYear = gYear;
+      }
+      break;
+    }
+    adjustRTCtime();
+  }
+  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
+  {
+  
+  }
+}
+
+// buttonDec
+void clickDec()
+{
+  if (gMode == MODE_SETTINGS)
+  {
+    #define EMPTY_BAR 32
+   // зачищення місця, де був повзунок 
+    lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
+    lcd.write(EMPTY_BAR);
+
+    // якщо повзунок на найнижчому варіанті вибору, то переводимо на перший
     if (gSettingsPointerRow == EXIT_SETTING_MODE_ROW)
     {
       gSettingsPointerRow = MODE_SETTINGS_ADJUST_DATE_ROW;
@@ -158,68 +250,12 @@ void clickInc()
   
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    
+    *gpSettingsAdjustValue -= 1; 
+    adjustRTCtime();
   }
-}
-
-void doubleclickInc()
-{
-//  isDoublePressInc = 1;
-}
-
-void longPressStartInc()
-{
-  //isLongPressStartInc = 1;
-  //isLongPressStopInc = 0;
-}
-
-void longPressStopInc()
-{
-//  isLongPressStartInc = 0;
-//  isLongPressStopInc = 1;
-}
-
-
-// buttonDec
-void clickDec()
-{
-  if (gMode == MODE_SETTINGS)
+  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-    #define EMPTY_BAR 32
-   // зачищення місця, де був повзунок 
-    lcd.setCursor(gSettingsPointerCol, gSettingsPointerRow);
-    lcd.write(EMPTY_BAR);
-
-    // якщо повзунок на найнижчому варіанті вибору, то переводимо на перший
-    if (gSettingsPointerRow == MODE_SETTINGS_ADJUST_DATE_ROW)
-    {
-      gSettingsPointerRow = EXIT_SETTING_MODE_ROW;
-    }
-    else
-    {
-      gSettingsPointerRow--;
-    }
-    loadSettingsMenu();
+    *gpSettingsAdjustValue -= 1;
+    adjustSensorForm(); 
   }
-  if (gMode == MODE_SETTINGS_ADJUST_DATE)
-  {
-    
-  }
-}
-
-void doubleclickDec()
-{
-  //isDoublePressInc = 1;
-}
-
-void longPressStartDec()
-{
-  //isLongPressStartInc = 1;
-  //isLongPressStopInc = 0;
-}
-
-void longPressStopDec()
-{
- // isLongPressStartOk = 0;
-  //isLongPressStopOk = 1;
 }

@@ -163,12 +163,6 @@ uint8_t ZERO[8] = {
 
 uint8_t *gpInvertedNumber = NINE;
 
-static byte gAdjustingHour;
-static byte gAdjustingMinute;
-static byte gAdjustingDay;
-static byte gAdjustingMonth;
-static int  gAdjustingYear;
-
 void convertToInverseColor(byte number)
 {
   switch(number)
@@ -268,11 +262,11 @@ void loadSettingsForm()
   backupMinute();
   backupHour();
 
-  gAdjustingHour = gHour;
+  gAdjustingHour   = gHour;
   gAdjustingMinute = gMinute;
-  gAdjustingDay = gDay;
-  gAdjustingMonth = gMonth;
-  gAdjustingYear = gYear;
+  gAdjustingDay    = gDay;
+  gAdjustingMonth  = gMonth;
+  gAdjustingYear   = gYear;
   
   lcd.setCursor(1, 1);
   lcd.print(F("Date"));
@@ -334,7 +328,6 @@ void adjustRTCtimeForm()
   lcd.print(F("/"));
   lcd.print(gYear);
 
-  //
 }
 
 void adjustRTCtime()
@@ -342,18 +335,26 @@ void adjustRTCtime()
   switch (gSettingsConfirmAdjustment)
   {
     // час hh:mm //////////////////////////////////////////////////////////////////
-    // хвилини
+    // години
     case 0:
     {
-      // перероблюємо  попередню  цифру на нормальний колір
-
       // виділення цифри, яку змінюємо   
       // налаштування годин - сотні від год
+
+      //оновлення іншої цифри години
+      lcd.setCursor(13, 1);
+      lcd.print(gAdjustingHour % 10);
+      
       convertToInverseColor(gAdjustingHour / 10); // встановлення вказівника на потрібну цифру
       lcd.createChar(3, gpInvertedNumber);        // занесення в пам'ять
     
       lcd.setCursor(12, 1);                       // виставлення курсору на потрібне місце
       lcd.write(3);                // виведення на екран потрібну цифру
+
+      if (*gpSettingsAdjustValue != gAdjustingHour)
+      {
+        gpSettingsAdjustValue = &gAdjustingHour;
+      }
     }
     break;
 
@@ -370,11 +371,16 @@ void adjustRTCtime()
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(13, 1);
-      lcd.write(3);      
+      lcd.write(3);  
+
+      if (*gpSettingsAdjustValue != gAdjustingHour)
+      {
+        gpSettingsAdjustValue = &gAdjustingHour;
+      }
     }
     break;
     
-    // години 
+    // хвилини 
     case 2:
     {
       // перероблюємо попередню цифру на нормальний колір
@@ -382,13 +388,22 @@ void adjustRTCtime()
       lcd.setCursor(13, 1); 
       lcd.print(gAdjustingHour % 10);
 
+      // оновлення іншої цифри хвилин
+      lcd.setCursor(16, 1);
+      lcd.print(gAdjustingMinute % 10);
+      
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування хвилин - десятки від хв
       convertToInverseColor(gAdjustingMinute / 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(15, 1);
-      lcd.write(3);      
+      lcd.write(3);  
+        
+      if (*gpSettingsAdjustValue != gAdjustingMinute)
+      {
+        gpSettingsAdjustValue = &gAdjustingMinute;
+      }
     }
     break;
 
@@ -400,12 +415,17 @@ void adjustRTCtime()
       lcd.print(gAdjustingMinute / 10);
 
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування хвилин - десятки від хв
       convertToInverseColor(gAdjustingMinute % 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(16, 1);
-      lcd.write(3);      
+      lcd.write(3);
+
+      if (*gpSettingsAdjustValue != gAdjustingMinute)
+      {
+        gpSettingsAdjustValue = &gAdjustingMinute;
+      }
     }
     break;
 
@@ -419,13 +439,22 @@ void adjustRTCtime()
       lcd.setCursor(16, 1); 
       lcd.print(gAdjustingMinute % 10);
 
+      // оновлення іншої цифри дня
+      lcd.setCursor(10, 2);
+      lcd.print(gAdjustingDay % 10);
+
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування дня - десятки від дня
       convertToInverseColor(gAdjustingDay / 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(9, 2);
-      lcd.write(3);      
+      lcd.write(3);  
+
+      if (*gpSettingsAdjustValue != gAdjustingDay)
+      {
+        gpSettingsAdjustValue = &gAdjustingDay;
+      }
     }
     break;
 
@@ -437,12 +466,17 @@ void adjustRTCtime()
       lcd.print(gAdjustingDay / 10);
 
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування дня
       convertToInverseColor(gAdjustingDay % 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(10, 2);
-      lcd.write(3);      
+      lcd.write(3);  
+
+      if (*gpSettingsAdjustValue !=gAdjustingDay)
+      {
+         gpSettingsAdjustValue = &gAdjustingDay;
+      }
     }
     break;
 
@@ -454,13 +488,22 @@ void adjustRTCtime()
       lcd.setCursor(10, 2); 
       lcd.print(gAdjustingDay % 10);
 
+      // оновлення іншої цифри місяця
+      lcd.setCursor(13, 2);
+      lcd.print(gAdjustingMonth % 10);
+
       // виділення цифри, яку змінюємо      
       // налаштування годин - десятки від год
       convertToInverseColor(gAdjustingMonth / 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(12, 2);
-      lcd.write(3);      
+      lcd.write(3);    
+
+      if (*gpSettingsAdjustValue != gAdjustingMonth)
+      {
+        gpSettingsAdjustValue = &gAdjustingMonth;
+      }
     }
     break;
   
@@ -472,19 +515,37 @@ void adjustRTCtime()
       lcd.print(gAdjustingMonth / 10);
 
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування місяця
       convertToInverseColor(gAdjustingMonth % 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(13, 2);
-      lcd.write(3);      
+      lcd.write(3); 
+
+      if (*gpSettingsAdjustValue != gAdjustingMonth)
+      {
+        gpSettingsAdjustValue = &gAdjustingMonth;
+      }
     }
     break;
 
     // рік
     case 8:
     {
-      // перероблюємо попередню цифру на нормальний колір
+      // оновлення інших цифри року
+      lcd.setCursor(15, 2);
+      lcd.print(gAdjustingYear / 1000);
+
+      lcd.setCursor(16, 2);
+      lcd.print((gAdjustingYear / 100) %10);
+
+      lcd.setCursor(17, 2);
+      lcd.print((gAdjustingYear / 10) %100);
+
+      lcd.setCursor(18, 2);
+      lcd.print(gAdjustingYear % 10);
+      
+      // перероблюємо попередню місяця
       // попередня цифра
       lcd.setCursor(13, 2); 
       lcd.print(gAdjustingMonth % 10);
@@ -495,65 +556,114 @@ void adjustRTCtime()
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(15, 2);
-      lcd.write(3);      
+      lcd.write(3);   
+
+      if (*gpSettingsAdjustValue != gAdjustingYear)
+      {
+        gpSettingsAdjustValue = &gAdjustingYear;
+      }
     }
     break;
 
     case 9:
     {
-      // перероблюємо попередню цифру на нормальний колір
-      // попередня цифра
-      lcd.setCursor(15, 2); 
+      // оновлення інших цифри року
+      // та перероблення попередньої цифри на нормальний колір
+      lcd.setCursor(15, 2);
       lcd.print(gAdjustingYear / 1000);
 
+      lcd.setCursor(16, 2);
+      lcd.print((gAdjustingYear / 100) %10);
+
+      lcd.setCursor(17, 2);
+      lcd.print((gAdjustingYear / 10) %100);
+
+      lcd.setCursor(18, 2);
+      lcd.print(gAdjustingYear % 10);
+
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування року
       convertToInverseColor((gAdjustingYear / 100) %10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(16, 2);
       lcd.write(3);      
+
+
+      if (*gpSettingsAdjustValue != gAdjustingYear)
+      {
+         gpSettingsAdjustValue = &gAdjustingYear;      
+      }
     }
     break;
 
      case 10:
     {
-      // перероблюємо попередню цифру на нормальний колір
-      // попередня цифра
-      lcd.setCursor(16, 2); 
+            // оновлення інших цифри року
+      // та перероблення попередньої цифри на нормальний колір
+      lcd.setCursor(15, 2);
+      lcd.print(gAdjustingYear / 1000);
+
+      lcd.setCursor(16, 2);
       lcd.print((gAdjustingYear / 100) %10);
 
+      lcd.setCursor(17, 2);
+      lcd.print((gAdjustingYear / 10) %100);
+
+      lcd.setCursor(18, 2);
+      lcd.print(gAdjustingYear % 10);
+
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування року
       convertToInverseColor((gAdjustingYear / 10) %100);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(17, 2);
-      lcd.write(3);      
+      lcd.write(3);  
+
+      if (*gpSettingsAdjustValue != gAdjustingYear)
+      {
+        gpSettingsAdjustValue = &gAdjustingYear;
+      }
     }
     break;
 
     case 11:
     {
-      // перероблюємо попередню цифру на нормальний колір
-      // попередня цифра
-      lcd.setCursor(17, 2); 
+      // оновлення інших цифри року
+      // та перероблення попередньої цифри на нормальний колір
+      lcd.setCursor(15, 2);
+      lcd.print(gAdjustingYear / 1000);
+
+      lcd.setCursor(16, 2);
+      lcd.print((gAdjustingYear / 100) %10);
+
+      lcd.setCursor(17, 2);
       lcd.print((gAdjustingYear / 10) %100);
 
+      lcd.setCursor(18, 2);
+      lcd.print(gAdjustingYear % 10);
+
       // виділення цифри, яку змінюємо      
-      // налаштування годин - десятки від год
+      // налаштування року
       convertToInverseColor(gAdjustingYear % 10);
       lcd.createChar(3, gpInvertedNumber);
       
       lcd.setCursor(18, 2);
-      lcd.write(3);      
+      lcd.write(3);
+
+      if (*gpSettingsAdjustValue != gAdjustingYear)
+      {
+        gpSettingsAdjustValue = &gAdjustingYear;
+      }
     }
     break;
 
-    // встановити
+    // встановити та вийти з даного режиму
     case 12:
     {
-      rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, 0));     
+      // rtc.adjust(DateTime(yyyy, mm, dd, hh, mm, ss = 0));
+      rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, 0));    
     }
     break;
   }
