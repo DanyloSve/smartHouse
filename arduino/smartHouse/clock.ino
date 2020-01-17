@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 // Home Mode
 // години
 #define HOME_HOURS_ROW   0
@@ -146,7 +149,7 @@ const char *daysOfTheWeek[]  =
   "SAT",
 };
 
-void printBigNum(byte number, byte startCol, byte startRow) 
+void printBigNum(const byte number, byte startCol, byte startRow) 
 {
   // очищення
   lcd.setCursor(startCol, startRow);

@@ -113,7 +113,8 @@ void doubleclickOk()
   {
       
   }
-  
+
+  /*
   gSettingsPointerCol = SETTINGS_CHOISE_COL;
   gSettingsConfirmAdjustment = 0;
   gMode = MODE_SETTINGS;
@@ -121,21 +122,84 @@ void doubleclickOk()
   clearAdjustMenu();
 
   loadSettingsMenu();
+  */
 }
 
 void longPressStartOk()
 {
-  if (gMode != MODE_HOME)
+  if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    gMode = MODE_HOME;
-    loadHomeForm();
+    gSettingsConfirmAdjustment = 12;
+    adjustRTCtime();
   }
+  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
+  {
+      
+  }
+  gSettingsPointerCol = SETTINGS_CHOISE_COL;
+  gSettingsConfirmAdjustment = 0;
+  gMode = MODE_SETTINGS;
+      
+  clearAdjustMenu();
+    
+  loadSettingsMenu();
 }
 
+int getMultiplier() // отримання множника для редагування одиниць, десятків, сотнів та тисячнів числа 1 10 100 1000
+{
+  switch(gSettingsRank)
+    {
+      case 0:
+      {
+        return 1;
+      }
+      break;
+
+      case 1:
+      {
+        return 10;
+      }
+      break;
+
+      case 2:
+      {
+        return 100;
+      }
+      break;
+
+      case 3:
+      {
+        return 1000;
+      }
+      break;
+    }
+}
+
+int getDigit(const int number)
+{
+  if (number >= 1000) // тисячні
+  {
+    return number / 1000;
+  }
+  else if (number >= 100) // сотні
+  {
+    return ((number / 100) % 10);
+  }
+  else if (number >= 10) // десятки
+  {
+    return ((number / 10) % 100);
+  }
+  else // одиниці
+  {
+    return number % 10;
+  }
+}
 
 // buttonInc
 void clickInc()
 {
+  #define MAX_NUMBER 9
+  
   if (gMode == MODE_SETTINGS)
   {
     #define EMPTY_BAR 32
@@ -156,13 +220,20 @@ void clickInc()
   }
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    *gpSettingsAdjustValue += 1;; 
-    adjustRTCtime();
+    if (getDigit(*gpSettingsAdjustValue) < MAX_NUMBER)//==============
+    {
+      *gpSettingsAdjustValue += 1 * getMultiplier();
+      adjustRTCtime();
+    }
+    
   }
   else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-    *gpSettingsAdjustValue += 1; 
-    adjustSensorForm();
+    if (getDigit(*gpSettingsAdjustValue) < MAX_NUMBER)//-----------------------
+    {
+      *gpSettingsAdjustValue += 1 * getMultiplier(); 
+      adjustSensorForm();
+    }
   }
 }
 
@@ -229,6 +300,8 @@ void longPressStartIncOrDec() // повертає попереднє значе�
 // buttonDec
 void clickDec()
 {
+  #define MIN_NUMBER 0
+  
   if (gMode == MODE_SETTINGS)
   {
     #define EMPTY_BAR 32
@@ -250,12 +323,18 @@ void clickDec()
   
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    *gpSettingsAdjustValue -= 1; 
-    adjustRTCtime();
+    if (getDigit(*gpSettingsAdjustValue) > MIN_NUMBER)
+    {
+      *gpSettingsAdjustValue -= 1 * getMultiplier(); 
+      adjustRTCtime();
+    }
   }
-  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
+  else if (getDigit(*gpSettingsAdjustValue) > MIN_NUMBER)
   {
-    *gpSettingsAdjustValue -= 1;
-    adjustSensorForm(); 
+    if (*gpSettingsAdjustValue > MIN_NUMBER * getMultiplier())
+    {
+      *gpSettingsAdjustValue -= 1 * getMultiplier();
+      adjustSensorForm(); 
+    }
   }
 }

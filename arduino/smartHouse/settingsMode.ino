@@ -338,6 +338,7 @@ void adjustRTCtime()
     // години
     case 0:
     {
+      gSettingsRank = 1; // 10
       // виділення цифри, яку змінюємо   
       // налаштування годин - сотні від год
 
@@ -360,6 +361,8 @@ void adjustRTCtime()
 
     case 1:
     {
+      gSettingsRank = 0; // 1
+      getMultiplier();
       // перероблюємо попередню  цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(12, 1); 
@@ -383,6 +386,7 @@ void adjustRTCtime()
     // хвилини 
     case 2:
     {
+      gSettingsRank = 1; // 10
       // перероблюємо попередню цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(13, 1); 
@@ -409,6 +413,8 @@ void adjustRTCtime()
 
     case 3:
     {
+      gSettingsRank = 0; // 1
+      
       // перероблюємо попередню цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(15, 1); 
@@ -434,6 +440,8 @@ void adjustRTCtime()
     // день
     case 4:
     {
+      gSettingsRank = 1; // 10
+      
       // перероблюємо попередню цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(16, 1); 
@@ -460,6 +468,7 @@ void adjustRTCtime()
 
     case 5:
     {
+      gSettingsRank = 0; // 1
       // перероблюємо попередню цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(9, 2); 
@@ -483,6 +492,8 @@ void adjustRTCtime()
     // місяць
     case 6:
     {
+      gSettingsRank = 1; // 10
+      
       // перероблюємо попередню цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(10, 2); 
@@ -509,6 +520,7 @@ void adjustRTCtime()
   
     case 7:
     {
+      gSettingsRank = 0; // 1
       // перероблюємо попередню цифру на нормальний колір
       // попередня цифра
       lcd.setCursor(12, 2); 
@@ -532,9 +544,10 @@ void adjustRTCtime()
     // рік
     case 8:
     {
+      gSettingsRank = 3; // 1000
       // оновлення інших цифри року
-      lcd.setCursor(15, 2);
-      lcd.print(gAdjustingYear / 1000);
+      //lcd.setCursor(15, 2);
+      //lcd.print(gAdjustingYear / 1000);
 
       lcd.setCursor(16, 2);
       lcd.print((gAdjustingYear / 100) %10);
@@ -567,13 +580,11 @@ void adjustRTCtime()
 
     case 9:
     {
+      gSettingsRank = 2; // 100
       // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(15, 2);
       lcd.print(gAdjustingYear / 1000);
-
-      lcd.setCursor(16, 2);
-      lcd.print((gAdjustingYear / 100) %10);
 
       lcd.setCursor(17, 2);
       lcd.print((gAdjustingYear / 10) %100);
@@ -599,16 +610,14 @@ void adjustRTCtime()
 
      case 10:
     {
-            // оновлення інших цифри року
+      gSettingsRank = 1; // 10
+      // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(15, 2);
       lcd.print(gAdjustingYear / 1000);
 
       lcd.setCursor(16, 2);
       lcd.print((gAdjustingYear / 100) %10);
-
-      lcd.setCursor(17, 2);
-      lcd.print((gAdjustingYear / 10) %100);
 
       lcd.setCursor(18, 2);
       lcd.print(gAdjustingYear % 10);
@@ -630,6 +639,7 @@ void adjustRTCtime()
 
     case 11:
     {
+      gSettingsRank = 0; // 0
       // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(15, 2);
@@ -640,9 +650,6 @@ void adjustRTCtime()
 
       lcd.setCursor(17, 2);
       lcd.print((gAdjustingYear / 10) %100);
-
-      lcd.setCursor(18, 2);
-      lcd.print(gAdjustingYear % 10);
 
       // виділення цифри, яку змінюємо      
       // налаштування року
@@ -662,8 +669,19 @@ void adjustRTCtime()
     // встановити та вийти з даного режиму
     case 12:
     {
+      // встановити дату
       // rtc.adjust(DateTime(yyyy, mm, dd, hh, mm, ss = 0));
-      rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, 0));    
+      rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, 0));  
+
+      // вихід
+      gSettingsPointerCol = SETTINGS_CHOISE_COL;
+      gSettingsConfirmAdjustment = 0;
+      gMode = MODE_SETTINGS;
+          
+      clearAdjustMenu();
+        
+      loadSettingsMenu();
+ 
     }
     break;
   }
@@ -671,15 +689,57 @@ void adjustRTCtime()
 
 void adjustSensor()
 {
-  
+  switch(gSettingsConfirmAdjustment)
+  {
+    case 1:
+    {
+      
+    }
+    break;
+
+    case 2:
+    {
+    
+    }
+    break;
+  }  
 }
 
 void adjustSensorForm()
 {
   lcd.setCursor(8, 1);
   lcd.print(F("Time Domain"));   // часовий проміжок 
+  lcd.setCursor(11, 2);
+  
+  if (gSensorReadTimeDomainSec < 1000)
+  {
+    lcd.print(0);
+  }
+  if (gSensorReadTimeDomainSec < 100)
+  {
+    lcd.print(0);
+  }
+  if (gSensorReadTimeDomainSec < 10)
+  {
+    lcd.print(0);
+  }
+  
+  lcd.print(gSensorReadTimeDomainSec);
+  lcd.print("s");
+
   lcd.setCursor(8, 3);
   lcd.print(F("Number")); 
+
+  lcd.setCursor(15, 3);
+  if (gNumberOfTimeDomains < 100)
+  {
+    lcd.print(0);
+  }
+  if (gNumberOfTimeDomains < 10)
+  {
+    lcd.print(0);
+  }
+  lcd.print(gNumberOfTimeDomains);//----------
 }
 
 void loadSettingsMenu()

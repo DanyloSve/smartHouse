@@ -16,9 +16,9 @@ double gHum;
 double gPres;
 double gAlt; // altitude
 
-double gTempArr[24];
-double gHumArr[24];
-double gPressArr[24];
+//double gTempArr[24];
+//double gHumArr[24];
+//double gPressArr[24];
 
 // DS3231 RTC/////////////////////////
 ///////////////////////////////////////
@@ -87,13 +87,18 @@ int gAdjustingMinute;
 int gAdjustingDay;
 int gAdjustingMonth;
 int gAdjustingYear;
-
+byte gSettingsRank = 1; // розряд 0 =  1(e0), 1 =  10(e1) , 2 = 100 (e2), 3 = 1000 (e3)
+ 
 // All sensors///////////////////////
 /////////////////////////////////////
 // у секундах
-#define SENSORS_SHOW_SEC    3    // (у секундах) оновлення показу сенсорів 
-#define SENSORS_BACKUP_SEC  3    // (у секундах) зчитування з сенсорів
+//#define SENSORS_SHOW_SEC    3    // (у секундах) оновлення показу сенсорів 
+//#define SENSORS_BACKUP_SEC  3    // (у секундах) зчитування з сенсорів
 #define TICK_TIME_SEC       1    // (у секундах) інтервал мигання точками
+
+int gSensorReadTimeDomainSec = 3;
+int gSensorShowSec           = 3;
+int gNumberOfTimeDomains  = 1;
 
 bool gShowTick = 0;
 
@@ -133,9 +138,9 @@ void loop()
     if(gMode ==  MODE_HOME)
     {
      // виведення даних з сенсорів
-     if (gTotalSec - gTimerLoadSensors >= SENSORS_SHOW_SEC)
+     if (gTotalSec - gTimerLoadSensors >= gSensorShowSec )
      {
-       gTimerLoadSensors += SENSORS_SHOW_SEC;
+       gTimerLoadSensors += gSensorShowSec ;
        loadSensors();
      }
     }      
@@ -148,9 +153,9 @@ void loop()
     }
   
   // оновлення даних з BME280
-  if (gTotalSec - gTimerSensorBackup  >= SENSORS_SHOW_SEC)
+  if (gTotalSec - gTimerSensorBackup  >= gSensorReadTimeDomainSec)
   {
-    gTimerSensorBackup += SENSORS_SHOW_SEC;
+    gTimerSensorBackup += gSensorReadTimeDomainSec;
     readBME();
   }
 
