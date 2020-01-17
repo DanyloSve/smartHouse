@@ -725,6 +725,7 @@ void adjustSensorForm()
   }
   
   lcd.print(gSensorReadTimeDomainSec);
+  lcd.setCursor(16, 2);
   lcd.print("s");
 
   lcd.setCursor(8, 3);
