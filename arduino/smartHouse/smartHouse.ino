@@ -16,6 +16,13 @@ double gHum;
 double gPres;
 double gAlt; // altitude
 
+int gSensorReadTimeDomainSec = 3; // часовий проміжок зчитування з сенсорів
+int gSensorShowSec           = 3; // часовий період виведення даних з сенсорів MODE_HOME
+int gNumberOfTimeDomains     = 1; // кількість проміжків для зчитування з сенсорів для знятття усередненого значення
+
+int gSettingsAdjustingSensorReadTimeDomainSec; // тимчасова знінна для приймання значень gSensorReadTimeDomainSec під час налаштування
+int gSettingsAdjustingNumberOfTimeDomains; //  тимчасова знінна для приймання значень gNumberOfTimeDomains  під час налаштування
+
 //double gTempArr[24];
 //double gHumArr[24];
 //double gPressArr[24];
@@ -51,7 +58,10 @@ LiquidCrystal_I2C lcd(I2C_ADDR, 20, 4);
 #define ONE_SECOND_MILLI_SEC  996
 #define CALIBRATE_CLOCK_MIN 15
 
+// відраховує кількість пройдених секунд після запуску або оновлення таймерів
 unsigned long gTotalSec;
+
+// таймери
 unsigned long gTimerSensorBackup;
 unsigned long gTimerLoadSensors;
 unsigned long gTimerTick;
@@ -76,18 +86,21 @@ OneButton buttDec(A1, false);  // decrement button (-)
 #define SETTINGS_CHOISE_COL             0
 #define SETTINGS_ADJUSTMENT_COL         7
 
+// координати вказівника вибору у меню налаштувань
 byte gSettingsPointerRow;
 byte gSettingsPointerCol;
 byte gSettingsConfirmAdjustment = 0;
 
 int *gpSettingsAdjustValue;
 
-int gAdjustingHour;
-int gAdjustingMinute;
-int gAdjustingDay;
-int gAdjustingMonth;
-int gAdjustingYear;
-byte gSettingsRank = 1; // розряд 0 =  1(e0), 1 =  10(e1) , 2 = 100 (e2), 3 = 1000 (e3)
+// тимчасові знінні для приймання значень gHour, gMinute ...  і тд під час налаштування
+int gAdjustingHour;    // тимчасова знінна для приймання значень gHour   під час налаштування
+int gAdjustingMinute;  // тимчасова знінна для приймання значень gMinute під час налаштування
+int gAdjustingDay;     // тимчасова знінна для приймання значень gDay    під час налаштування
+int gAdjustingMonth;   // тимчасова знінна для приймання значень gMonth  під час налаштування
+int gAdjustingYear;    // тимчасова знінна для приймання значень gYear   під час налаштування
+byte gSettingsRank = 1; // розряд для редагування чисел під час налаштування 
+                        // 0 =  1(e0), 1 =  10(e1) , 2 = 100 (e2), 3 = 1000 (e3)
  
 // All sensors///////////////////////
 /////////////////////////////////////
@@ -95,10 +108,6 @@ byte gSettingsRank = 1; // розряд 0 =  1(e0), 1 =  10(e1) , 2 = 100 (e2), 
 //#define SENSORS_SHOW_SEC    3    // (у секундах) оновлення показу сенсорів 
 //#define SENSORS_BACKUP_SEC  3    // (у секундах) зчитування з сенсорів
 #define TICK_TIME_SEC       1    // (у секундах) інтервал мигання точками
-
-int gSensorReadTimeDomainSec = 3;
-int gSensorShowSec           = 3;
-int gNumberOfTimeDomains  = 1;
 
 bool gShowTick = 0;
 

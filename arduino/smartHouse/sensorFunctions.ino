@@ -69,8 +69,10 @@ void clickOk()
         {
           gSettingsPointerCol = SETTINGS_ADJUSTMENT_COL;
           gMode = MODE_SETTINGS_ADJUST_SENS;
+          
           adjustSensorForm();
-          loadSettingsMenu();  
+          loadSettingsMenu();
+          adjustSensor();  
         }
         break;
 
@@ -95,7 +97,7 @@ void clickOk()
     else if (gMode == MODE_SETTINGS_ADJUST_SENS)
     {
       gSettingsConfirmAdjustment++;
-      adjustSensorForm(); // оновлюємо меню adjustSensorForm
+      adjustSensor();
     }
     
 }
@@ -175,24 +177,15 @@ int getMultiplier() // отримання множника для редагув
     }
 }
 
-int getDigit(const int number)
+int getDigit(const int &number, const byte &gSettingsRank) //------------->
 {
-  if (number >= 1000) // тисячні
+  switch(gSettingsRank)
   {
-    return number / 1000;
-  }
-  else if (number >= 100) // сотні
-  {
-    return ((number / 100) % 10);
-  }
-  else if (number >= 10) // десятки
-  {
-    return ((number / 10) % 100);
-  }
-  else // одиниці
-  {
-    return number % 10;
-  }
+    case 0: return number % 10;
+    case 1: return ((number % 100) / 10);
+    case 2: return ((number % 1000) / 100);
+    case 3: return number / 1000;
+    }  
 }
 
 // buttonInc
@@ -217,19 +210,19 @@ void clickInc()
       gSettingsPointerRow--;
     }
     loadSettingsMenu();
+    //clearAdjustMenu();
   }
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    if (getDigit(*gpSettingsAdjustValue) < MAX_NUMBER)//==============
+    if (getDigit(*gpSettingsAdjustValue, gSettingsRank) < MAX_NUMBER)//==============
     {
       *gpSettingsAdjustValue += 1 * getMultiplier();
       adjustRTCtime();
     }
-    
   }
   else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-    if (getDigit(*gpSettingsAdjustValue) < MAX_NUMBER)//-----------------------
+    if (getDigit(*gpSettingsAdjustValue, gSettingsRank) < MAX_NUMBER)//-----------------------
     {
       *gpSettingsAdjustValue += 1 * getMultiplier(); 
       adjustSensorForm();
@@ -238,7 +231,7 @@ void clickInc()
 }
 
 
-void longPressStartIncOrDec() // повертає попереднє значення години, хвилин і тд
+void longPressStartIncOrDec() // змінює на попередні значення години, хвилин і тд
 {
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
@@ -323,15 +316,15 @@ void clickDec()
   
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    if (getDigit(*gpSettingsAdjustValue) > MIN_NUMBER)
+    if (getDigit(*gpSettingsAdjustValue, gSettingsRank) > MIN_NUMBER)
     {
       *gpSettingsAdjustValue -= 1 * getMultiplier(); 
       adjustRTCtime();
     }
   }
-  else if (getDigit(*gpSettingsAdjustValue) > MIN_NUMBER)
+  else if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
-    if (*gpSettingsAdjustValue > MIN_NUMBER * getMultiplier())
+    if (getDigit(*gpSettingsAdjustValue, gSettingsRank) > MIN_NUMBER)
     {
       *gpSettingsAdjustValue -= 1 * getMultiplier();
       adjustSensorForm(); 

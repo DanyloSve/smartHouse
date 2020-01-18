@@ -88,8 +88,8 @@ void setupOneButton()
   buttOk.attachLongPressStart(longPressStartOk);
 
   buttInc.attachClick(clickInc);
-
   buttInc.attachLongPressStart(longPressStartIncOrDec);
 
-  buttDec.attachClick(clickDec);  
+  buttDec.attachClick(clickDec); 
+  buttDec.attachLongPressStart(longPressStartIncOrDec); 
 }
