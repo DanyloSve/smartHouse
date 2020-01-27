@@ -138,6 +138,11 @@ void longPressStartOk()
   {
       
   }
+  else if (gMode == MODE_SETTINGS)
+  {
+    gMode = MODE_HOME;
+    loadHomeForm();
+  }
   gSettingsPointerCol = SETTINGS_CHOISE_COL;
   gSettingsConfirmAdjustment = 0;
   gMode = MODE_SETTINGS;
