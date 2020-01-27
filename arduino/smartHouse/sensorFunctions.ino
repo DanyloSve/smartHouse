@@ -136,7 +136,7 @@ void longPressStartOk()
   }
   else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-      
+      //
   }
   else if (gMode == MODE_SETTINGS)
   {
