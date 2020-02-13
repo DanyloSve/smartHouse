@@ -67,6 +67,7 @@ void setupRTC()
   delay(3000);
 }
 
+
 void setupLCD()
 {
   // Initialise the LCD: turn on backlight and ensure cursor top left

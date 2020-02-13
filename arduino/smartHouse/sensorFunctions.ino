@@ -13,8 +13,6 @@ void readBME()
 
 void readRTC()
 {   
-  while (true)
-  {
     DateTime now = rtc.now();         
     gSecond = now.second();
     gMinute = now.minute();
@@ -23,12 +21,6 @@ void readRTC()
     gDayName = now.dayOfTheWeek();
     gMonth = now.month();
     gYear = now.year(); 
-
-    if (gSecond >= 0 && gSecond <= 5)
-    {
-      break;
-    }
-  }
 }
 
 // buttonOK
@@ -102,54 +94,40 @@ void clickOk()
     
 }
 
-void doubleclickOk()
-{
-  // перехід до меню вибору налаштувань(Date, Sensor, EXIT)
 
-  if (gMode == MODE_SETTINGS_ADJUST_DATE)
-  {
-    gSettingsConfirmAdjustment = 12;
-    adjustRTCtime();
-  }
-  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
-  {
-      
-  }
-
-  /*
-  gSettingsPointerCol = SETTINGS_CHOISE_COL;
-  gSettingsConfirmAdjustment = 0;
-  gMode = MODE_SETTINGS;
-  
-  clearAdjustMenu();
-
-  loadSettingsMenu();
-  */
-}
-
+// якщо кнопки працюватимуть правильно, розкоментувати цей код--------------------------------------------------------------->>>
+// НЕ ВИДАЛЯТИ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void longPressStartOk()
 {
+  /*
   if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
+    
     gSettingsConfirmAdjustment = 12;
-    adjustRTCtime();
+    adjustRTCtime();  
+    
   }
   else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-      //
+    
+    gSettingsConfirmAdjustment = 7;
+    
+    gSettingsPointerCol = SETTINGS_CHOISE_COL;
+    gSettingsConfirmAdjustment = 0;
+    gMode = MODE_SETTINGS;
+      
+    clearAdjustMenu();
+      
+    loadSettingsMenu();
+    
   }
   else if (gMode == MODE_SETTINGS)
   {
+    
     gMode = MODE_HOME;
     loadHomeForm();
   }
-  gSettingsPointerCol = SETTINGS_CHOISE_COL;
-  gSettingsConfirmAdjustment = 0;
-  gMode = MODE_SETTINGS;
-      
-  clearAdjustMenu();
-    
-  loadSettingsMenu();
+  */  
 }
 
 int getMultiplier() // отримання множника для редагування одиниць, десятків, сотнів та тисячнів числа 1 10 100 1000

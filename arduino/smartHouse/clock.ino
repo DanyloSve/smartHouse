@@ -396,7 +396,7 @@ void backupDay()
   
   lcd.print(gDay);
   lcd.print(".");
-  
+
   lcd.setCursor(HOME_DAY_NAME_COL, HOME_DAY_NAME_ROW);
   lcd.print(daysOfTheWeek[gDayName]);
 }

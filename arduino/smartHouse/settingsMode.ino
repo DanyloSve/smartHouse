@@ -219,7 +219,8 @@ void convertToInverseColor(byte number)
     {
       gpInvertedNumber = EIGHT;
     }
-    break;
+    break;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
+      //rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, gSecond));
 
     case 9:
     {
@@ -242,9 +243,8 @@ void loadSegments()
 
 void loadSettingsForm()
 {
-  //lcd.noCursor();   
+  lcd.clear();   
   loadSegments();
-  lcd.clear();
   
   gSettingsPointerRow = 1;
   gSettingsPointerCol = 0;
@@ -268,8 +268,6 @@ void loadSettingsForm()
   lcd.print(F("Sensors"));
   lcd.setCursor(1, 3);
   lcd.print(F("EXIT"));
-
-  //clearAdjustMenu();
 }
 
 void clearAdjustMenu()
@@ -383,6 +381,7 @@ void adjustRTCtime()
       {
         gpSettingsAdjustValue = &gAdjustingHour;
       }
+
     }
     break;
     
@@ -674,8 +673,15 @@ void adjustRTCtime()
     {
       // встановити дату
       // rtc.adjust(DateTime(yyyy, mm, dd, hh, mm, ss = 0));
-      rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, 0));  
+      rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, gSecond));  
+      // оновлюємо покази годдиників
+      readRTC();
 
+      // тут оновлюємо тільки ті дані, які використовуюються в меню налаштувань
+      backupMinute();
+      backupHour();
+      backupTimers();
+      
       // вихід
       gSettingsPointerCol = SETTINGS_CHOISE_COL;
       gSettingsConfirmAdjustment = 0;
@@ -684,7 +690,6 @@ void adjustRTCtime()
       clearAdjustMenu();
         
       loadSettingsMenu();
- 
     }
     break;
   }
@@ -856,7 +861,6 @@ void adjustSensor()
       // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(11, 2);
-
       if (gSettingsAdjustingSensorReadTimeDomainSec < 1000)
       {
         lcd.print(0);
@@ -888,12 +892,27 @@ void adjustSensor()
     ///////////////////////////////////////////////////////
     case 4:
     {
+      lcd.setCursor(14, 2);
+      lcd.print(3, gpInvertedNumber);
+      
        // виділення цифри, яку змінюємо      
       // налаштування року
       convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
       
       lcd.createChar(3, gpInvertedNumber);
-      lcd.setCursor(14, 2);
+      lcd.setCursor(15, 3);
+      lcd.write(3);  
+    }
+    break;
+
+    case 5:
+    {
+       // виділення цифри, яку змінюємо      
+      // налаштування року
+      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
+      
+      lcd.createChar(3, gpInvertedNumber);
+      lcd.setCursor(16, 3);
       lcd.write(3);  
     }
     break;
@@ -905,20 +924,21 @@ void adjustSensor()
       convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
       
       lcd.createChar(3, gpInvertedNumber);
-      lcd.setCursor(14, 2);
+      lcd.setCursor(17, 3);
       lcd.write(3);  
     }
     break;
 
     case 7: // confirm
     {
-      // виділення цифри, яку змінюємо      
-      // налаштування року
-      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
-      
-      lcd.createChar(3, gpInvertedNumber);
-      lcd.setCursor(14, 2);
-      lcd.write(3);  
+      // вихід
+      gSettingsPointerCol = SETTINGS_CHOISE_COL;
+      gSettingsConfirmAdjustment = 0;
+      gMode = MODE_SETTINGS;
+          
+      clearAdjustMenu();
+        
+      loadSettingsMenu();
     }
     break;
   }  
