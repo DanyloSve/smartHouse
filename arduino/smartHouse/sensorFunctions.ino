@@ -195,7 +195,7 @@ void clickInc()
     loadSettingsMenu();
     //clearAdjustMenu();
   }
-  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  else if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
     if (getDigit(*gpSettingsAdjustValue, gSettingsRank) < MAX_NUMBER)//==============
     {
@@ -208,7 +208,7 @@ void clickInc()
     if (getDigit(*gpSettingsAdjustValue, gSettingsRank) < MAX_NUMBER)//-----------------------
     {
       *gpSettingsAdjustValue += 1 * getMultiplier(); 
-      adjustSensorForm();
+      adjustSensor();
     }
   }
 }
@@ -297,7 +297,7 @@ void clickDec()
     loadSettingsMenu();
   }
   
-  if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  else if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {
     if (getDigit(*gpSettingsAdjustValue, gSettingsRank) > MIN_NUMBER)
     {
@@ -305,12 +305,12 @@ void clickDec()
       adjustRTCtime();
     }
   }
-  else if (gMode == MODE_SETTINGS_ADJUST_DATE)
+  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
     if (getDigit(*gpSettingsAdjustValue, gSettingsRank) > MIN_NUMBER)
     {
       *gpSettingsAdjustValue -= 1 * getMultiplier();
-      adjustSensorForm(); 
+      adjustSensor(); 
     }
   }
 }

@@ -219,9 +219,8 @@ void convertToInverseColor(byte number)
     {
       gpInvertedNumber = EIGHT;
     }
-    break;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
-      //rtc.adjust(DateTime(gAdjustingYear, gAdjustingMonth, gAdjustingDay, gAdjustingHour, gAdjustingMinute, gSecond));
-
+    break;    
+     
     case 9:
     {
       gpInvertedNumber = NINE;
@@ -377,11 +376,6 @@ void adjustRTCtime()
       lcd.setCursor(13, 1);
       lcd.write(3);  
 
-      if (*gpSettingsAdjustValue != gAdjustingHour)
-      {
-        gpSettingsAdjustValue = &gAdjustingHour;
-      }
-
     }
     break;
     
@@ -429,11 +423,6 @@ void adjustRTCtime()
       
       lcd.setCursor(16, 1);
       lcd.write(3);
-
-      if (*gpSettingsAdjustValue != gAdjustingMinute)
-      {
-        gpSettingsAdjustValue = &gAdjustingMinute;
-      }
     }
     break;
 
@@ -483,11 +472,6 @@ void adjustRTCtime()
       
       lcd.setCursor(10, 2);
       lcd.write(3);  
-
-      if (*gpSettingsAdjustValue !=gAdjustingDay)
-      {
-         gpSettingsAdjustValue = &gAdjustingDay;
-      }
     }
     break;
 
@@ -535,11 +519,6 @@ void adjustRTCtime()
       
       lcd.setCursor(13, 2);
       lcd.write(3); 
-
-      if (*gpSettingsAdjustValue != gAdjustingMonth)
-      {
-        gpSettingsAdjustValue = &gAdjustingMonth;
-      }
     }
     break;
 
@@ -601,12 +580,6 @@ void adjustRTCtime()
       
       lcd.setCursor(16, 2);
       lcd.write(3);      
-
-
-      if (*gpSettingsAdjustValue != gAdjustingYear)
-      {
-         gpSettingsAdjustValue = &gAdjustingYear;      
-      }
     }
     break;
 
@@ -631,11 +604,6 @@ void adjustRTCtime()
       
       lcd.setCursor(17, 2);
       lcd.write(3);  
-
-      if (*gpSettingsAdjustValue != gAdjustingYear)
-      {
-        gpSettingsAdjustValue = &gAdjustingYear;
-      }
     }
     break;
 
@@ -660,11 +628,6 @@ void adjustRTCtime()
       
       lcd.setCursor(18, 2);
       lcd.write(3);
-
-      if (*gpSettingsAdjustValue != gAdjustingYear)
-      {
-        gpSettingsAdjustValue = &gAdjustingYear;
-      }
     }
     break;
 
@@ -699,8 +662,8 @@ void adjustSensorForm()
 {
   //clearAdjustMenu();
   gSettingsAdjustingSensorReadTimeDomainSec = gSensorReadTimeDomainSec; 
-  gSettingsAdjustingNumberOfTimeDomains = gNumberOfTimeDomains;
-  gSettingsConfirmAdjustment = 0;
+  gSettingsAdjustingNumberOfTimeDomains     = gNumberOfTimeDomains;
+  //gSettingsConfirmAdjustment = 0;
   
   lcd.setCursor(8, 1);
   lcd.print(F("Time Domain"));   // часовий проміжок 
@@ -749,72 +712,75 @@ void adjustSensor()
       gSettingsRank = 3; // 1000
       // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
-
+      
       lcd.setCursor(12, 2);    
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 100)
-      {
-        lcd.print(0);
-      }
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 1000) / 100);
 
       lcd.setCursor(13, 2);  
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 10)
-      {
-        lcd.print(0);
-      }
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 100) / 10);
 
       lcd.setCursor(14, 2);
-      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec);
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec % 10);
 
       // виділення цифри, яку змінюємо      
       // налаштування року
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 1000)
-      {
-        convertToInverseColor(0);
-      }
-      else
-      {
-        convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec / 1000);
-      }
+ 
+      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec / 1000);
+     
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(11, 2);
       lcd.write(3);  
+
+      if (*gpSettingsAdjustValue != gSettingsAdjustingSensorReadTimeDomainSec)
+      {
+        gpSettingsAdjustValue = &gSettingsAdjustingSensorReadTimeDomainSec;
+      }
     }
     break;
-
-    case 1:
+           // Це чомусь не працює(
+    case 1://////////////////////////////////////////////////////////////
     {
+      /*
       gSettingsRank = 2; // 100
       // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
+      
       lcd.setCursor(11, 2);
-
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 1000)
-      {
-        lcd.print(0);
-      }
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec / 1000);
 
       lcd.setCursor(13, 2);  
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 10)
-      {
-        lcd.print(0);
-      }
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 100) / 10);
 
       lcd.setCursor(14, 2);
-      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec);
-
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec % 10);
+      
       // виділення цифри, яку змінюємо      
       // налаштування року   
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 100)
-      {
-        convertToInverseColor(0);
-      }
-      else
-      {
-        convertToInverseColor((gSettingsAdjustingSensorReadTimeDomainSec % 1000) / 100);
-      }
-      
+
+      convertToInverseColor((gSettingsAdjustingSensorReadTimeDomainSec % 1000) / 100);
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(12, 2); 
+      lcd.write(3); 
+      */
+
+      gSettingsRank = 0; // 1
+      // оновлення інших цифри 
+      // та перероблення попередньої цифри на нормальний колір
+      lcd.setCursor(11, 2);
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec / 1000);
+      
+      lcd.setCursor(12, 2);    
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 1000) / 100);
+
+      lcd.setCursor(13, 2);  
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 100) / 10);
+
+      // виділення цифри, яку змінюємо      
+      // налаштування року
+      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
+      
+      lcd.createChar(3, gpInvertedNumber);
+      lcd.setCursor(14, 2);
       lcd.write(3);  
     }
 
@@ -824,59 +790,37 @@ void adjustSensor()
       // оновлення інших цифри року
       // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(11, 2);
-
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 1000)
-      {
-        lcd.print(0);
-      }
-
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec / 1000);
+      
       lcd.setCursor(12, 2);    
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 100)
-      {
-        lcd.print(0);
-      }
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 1000) / 100);
 
       lcd.setCursor(14, 2);
-      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec);
-
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec % 10);
       // виділення цифри, яку змінюємо      
       // налаштування року      
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 10)
-      {
-        convertToInverseColor(0);
-      }
-      else
-      {
-        convertToInverseColor((gSettingsAdjustingSensorReadTimeDomainSec % 100) / 10);
-      }
+
+      convertToInverseColor((gSettingsAdjustingSensorReadTimeDomainSec % 100) / 10);
+      
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(13, 2);
-      lcd.write(3);  
+      lcd.write(3);
     }
     break;
 
     case 3:
     {
-      gSettingsRank = 0; // 1000
-      // оновлення інших цифри року
+      gSettingsRank = 0; // 1
+      // оновлення інших цифри 
       // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(11, 2);
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 1000)
-      {
-        lcd.print(0);
-      }
-
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec / 1000);
+      
       lcd.setCursor(12, 2);    
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 100)
-      {
-        lcd.print(0);
-      }
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 1000) / 100);
 
       lcd.setCursor(13, 2);  
-      if (gSettingsAdjustingSensorReadTimeDomainSec < 10)
-      {
-        lcd.print(0);
-      }
+      lcd.print((gSettingsAdjustingSensorReadTimeDomainSec % 100) / 10);
 
       // виділення цифри, яку змінюємо      
       // налаштування року
@@ -885,6 +829,7 @@ void adjustSensor()
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(14, 2);
       lcd.write(3);  
+
     }
     break;
     
@@ -892,36 +837,55 @@ void adjustSensor()
     ///////////////////////////////////////////////////////
     case 4:
     {
+      gSettingsRank = 2; // 100
+      // оновлення інших цифри 
+      // та перероблення попередньої цифри на нормальний колір
       lcd.setCursor(14, 2);
-      lcd.print(3, gpInvertedNumber);
+      lcd.print(gSettingsAdjustingSensorReadTimeDomainSec % 10);
       
        // виділення цифри, яку змінюємо      
       // налаштування року
-      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
+      convertToInverseColor(gSettingsAdjustingNumberOfTimeDomains / 100);
       
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(15, 3);
-      lcd.write(3);  
+      lcd.write(3);
+
+      if (*gpSettingsAdjustValue != gSettingsAdjustingNumberOfTimeDomains)
+      {
+        gpSettingsAdjustValue = &gSettingsAdjustingNumberOfTimeDomains;
+      }
     }
     break;
 
     case 5:
     {
+      gSettingsRank = 1; // 10
+      lcd.setCursor(15, 3);
+      lcd.print(gSettingsAdjustingNumberOfTimeDomains / 100);
        // виділення цифри, яку змінюємо      
       // налаштування року
-      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
+      convertToInverseColor((gSettingsAdjustingNumberOfTimeDomains % 100) / 10);
       
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(16, 3);
-      lcd.write(3);  
+      lcd.write(3);
+
+      if (*gpSettingsAdjustValue != gSettingsAdjustingNumberOfTimeDomains)
+      {
+        gpSettingsAdjustValue = &gSettingsAdjustingNumberOfTimeDomains;
+      }
     }
     break;
 
     case 6:
     {
+      gSettingsRank = 0; // 1
+      lcd.setCursor(16, 3);
+      lcd.print((gSettingsAdjustingNumberOfTimeDomains % 100) / 10);
       // виділення цифри, яку змінюємо      
       // налаштування року
-      convertToInverseColor(gSettingsAdjustingSensorReadTimeDomainSec % 10);
+      convertToInverseColor(gSettingsAdjustingNumberOfTimeDomains % 10);
       
       lcd.createChar(3, gpInvertedNumber);
       lcd.setCursor(17, 3);
