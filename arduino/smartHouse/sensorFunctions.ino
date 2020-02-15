@@ -97,6 +97,7 @@ void clickOk()
 
 // якщо кнопки працюватимуть правильно, розкоментувати цей код--------------------------------------------------------------->>>
 // НЕ ВИДАЛЯТИ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// ПРИ РОЗКОМЕНТУВАННІЙ ПЕРЕВІРИТИ НА ВІДСУТНІСТЬ БАГІВ 
 void longPressStartOk()
 {
   /*
@@ -269,7 +270,26 @@ void longPressStartIncOrDec() // змінює на попередні значе
   }
   else if (gMode == MODE_SETTINGS_ADJUST_SENS)
   {
-  
+    switch(gSettingsConfirmAdjustment)
+    {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      {
+        gSettingsAdjustingSensorReadTimeDomainSec = gSensorReadTimeDomainSec; 
+      }
+      break;
+      
+      case 4:
+      case 5:
+      case 6:
+      {
+        gSettingsAdjustingNumberOfTimeDomains     = gNumberOfTimeDomains; 
+      }
+      break;
+    }
+    adjustSensor();
   }
 }
 
