@@ -405,6 +405,8 @@ void tickClock()
 {
   #define EMPTY_BAR 32 // пустий сегмент, блок
   
+  static bool gShowTick = 0;
+  
   if (gMode == MODE_HOME)
   {
     if (gShowTick)

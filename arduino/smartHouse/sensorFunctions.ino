@@ -94,70 +94,14 @@ void clickOk()
     
 }
 
-
-// якщо кнопки працюватимуть правильно, розкоментувати цей код--------------------------------------------------------------->>>
-// НЕ ВИДАЛЯТИ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// ПРИ РОЗКОМЕНТУВАННІЙ ПЕРЕВІРИТИ НА ВІДСУТНІСТЬ БАГІВ 
-void longPressStartOk()
-{
-  /*
-  if (gMode == MODE_SETTINGS_ADJUST_DATE)
-  {
-    
-    gSettingsConfirmAdjustment = 12;
-    adjustRTCtime();  
-    
-  }
-  else if (gMode == MODE_SETTINGS_ADJUST_SENS)
-  {
-    
-    gSettingsConfirmAdjustment = 7;
-    
-    gSettingsPointerCol = SETTINGS_CHOISE_COL;
-    gSettingsConfirmAdjustment = 0;
-    gMode = MODE_SETTINGS;
-      
-    clearAdjustMenu();
-      
-    loadSettingsMenu();
-    
-  }
-  else if (gMode == MODE_SETTINGS)
-  {
-    
-    gMode = MODE_HOME;
-    loadHomeForm();
-  }
-  */  
-}
-
 int getMultiplier() // отримання множника для редагування одиниць, десятків, сотнів та тисячнів числа 1 10 100 1000
 {
   switch(gSettingsRank)
     {
-      case 0:
-      {
-        return 1;
-      }
-      break;
-
-      case 1:
-      {
-        return 10;
-      }
-      break;
-
-      case 2:
-      {
-        return 100;
-      }
-      break;
-
-      case 3:
-      {
-        return 1000;
-      }
-      break;
+      case 0: return 1;
+      case 1: return 10;
+      case 2: return 100;
+      case 3: return 1000;
     }
 }
 
@@ -170,6 +114,27 @@ int getDigit(const int &number, const byte &gSettingsRank) //------------->
     case 2: return ((number % 1000) / 100);
     case 3: return number / 1000;
     }  
+}
+
+void longPressStartOk()
+{ 
+  if (gMode == MODE_SETTINGS_ADJUST_DATE || gMode == MODE_SETTINGS_ADJUST_SENS)
+  {    
+    gSettingsPointerCol = SETTINGS_CHOISE_COL;
+    gSettingsConfirmAdjustment = 0;
+    gMode = MODE_SETTINGS;
+      
+    clearAdjustMenu();
+      
+    loadSettingsMenu();
+    
+  }
+  else if (gMode == MODE_SETTINGS)
+  {    
+    gMode = MODE_HOME;
+    loadHomeForm();
+  }
+    
 }
 
 // buttonInc
@@ -194,7 +159,6 @@ void clickInc()
       gSettingsPointerRow--;
     }
     loadSettingsMenu();
-    //clearAdjustMenu();
   }
   else if (gMode == MODE_SETTINGS_ADJUST_DATE)
   {

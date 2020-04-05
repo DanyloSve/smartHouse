@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE svg>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" y="0px" id="pcb" x="0px" version="1.1" height="0.541639in" gorn="0" width="0.433431in" xmlns:xml="http://www.w3.org/XML/1998/namespace" enable-background="new 0 0 31.207 38.998" xml:space="preserve"  viewBox="0 0 31.207 38.998">
+    <desc >
+        <referenceFile >svg.pcb.BMP280_4a8e087c06a68a67ad59c1c2feabee61_2_pcb.svg</referenceFile>
+    </desc>
+    <g id="silkscreen" gorn="0.1" >
+        <line y2="38.278" stroke-width="0.6984" y1="0.719" x1="30.486" x2="30.486" stroke="#000000"  fill="none"/>
+        <path stroke-width="0.6984" d="M0.72,0.719" stroke="#000000"  fill="none"/>
+        <line y2="0.719" stroke-width="0.6984" y1="0.719" x1="0.72" x2="30.486" stroke="#000000"  fill="none"/>
+        <line y2="38.278" stroke-width="0.6984" y1="0.719" x1="0.72" x2="0.72" stroke="#000000"  fill="none"/>
+        <line y2="38.278" stroke-width="0.6984" y1="38.278" x1="0.72" x2="12.003" stroke="#000000"  fill="none"/>
+        <line y2="38.278" stroke-width="0.6984" y1="38.278" x1="19.203" x2="30.486" stroke="#000000"  fill="none"/>
+    </g>
+    <g id="copper1_1_" gorn="0.2" >
+        <g id="copper0" gorn="0.2.0" >
+            <rect y="32.14" id="square" x="2.714" stroke-width="1.44" stroke="#F7BD13" height="4.188" gorn="0.2.0.0" width="4.176"  fill="none"/>
+            <circle id="connector3pad" stroke-width="1.44" cx="26.402" cy="34.228" stroke="#F7BD13" gorn="0.2.0.1" r="2.088"  fill="none"/>
+            <circle id="connector2pad" stroke-width="1.44" cx="19.204" cy="34.228" stroke="#F7BD13" gorn="0.2.0.2" r="2.088"  fill="none"/>
+            <circle id="connector1pad" stroke-width="1.44" cx="12.003" cy="34.228" stroke="#F7BD13" gorn="0.2.0.3" r="2.088"  fill="none"/>
+            <circle id="connector0pad" stroke-width="1.44" cx="4.803" cy="34.227" stroke="#F7BD13" gorn="0.2.0.4" r="2.087"  fill="none"/>
+        </g>
+    </g>
+</svg>

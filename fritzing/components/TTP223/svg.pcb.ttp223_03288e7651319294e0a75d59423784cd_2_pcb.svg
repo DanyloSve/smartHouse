@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE svg>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" width="0.408528in" xmlns:xml="http://www.w3.org/XML/1998/namespace" id="Layer_1" viewBox="0 0 29.414 39.105"  enable-background="new 0 0 29.414 39.105" height="0.543125in" gorn="0" x="0px" xml:space="preserve" version="1.1" y="0px">
+    <desc >
+        <referenceFile >TTP223_pcb.svg</referenceFile>
+    </desc>
+    <g >
+        <g id="silkscreen"  gorn="0.1.0">
+            <line stroke-miterlimit="10" stroke="#000000" stroke-width="0.5"  y1="0.249" y2="38.896" x1="0.251" x2="0.251" fill="none"/>
+            <line stroke-miterlimit="10" stroke="#000000" stroke-width="0.5"  y1="0.21" y2="38.857" x1="29.164" x2="29.164" fill="none"/>
+            <line stroke-miterlimit="10" stroke="#000000" stroke-width="0.5"  y1="0.249" y2="0.249" x1="29.164" x2="0.25" fill="none"/>
+            <line stroke-miterlimit="10" stroke="#000000" stroke-width="0.5"  y1="38.857" y2="38.857" x1="29.164" x2="0.25" fill="none"/>
+        </g>
+        <g id="copper1"  gorn="0.1.1">
+            <g id="copper0"  gorn="0.1.1.0">
+                <rect stroke-miterlimit="10" width="3.543" stroke="#FFB900" stroke-width="1"  height="3.543" x="5.737" fill="none" y="1.816"/>
+                <circle stroke-miterlimit="10" stroke="#FFB900" id="connector0pad" stroke-width="1"  cx="7.508" r="1.771" gorn="0.1.1.0.1" cy="3.587" fill="none"/>
+                <circle stroke-miterlimit="10" stroke="#FFB900" id="connector1pad" stroke-width="1"  cx="14.708" r="1.771" gorn="0.1.1.0.2" cy="3.587" fill="none"/>
+                <circle stroke-miterlimit="10" stroke="#FFB900" id="connector2pad" stroke-width="1"  cx="21.908" r="1.771" gorn="0.1.1.0.3" cy="3.587" fill="none"/>
+            </g>
+        </g>
+    </g>
+</svg>

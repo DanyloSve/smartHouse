@@ -1,8 +1,3 @@
-/*
-   void setup()
-   void loop()
-   newer
-*/
 // BME280//////////////////////////////
 ///////////////////////////////////////
 #include <Adafruit_Sensor.h>
@@ -54,6 +49,7 @@ int  gYear;
 LiquidCrystal_I2C lcd(I2C_ADDR, 20, 4);
 
 // MsTimer ///////////////////////////
+//////////////////////////////////////
 #include <MsTimer2.h>
 
 #define ONE_SECOND_MILLI_SEC  996
@@ -86,7 +82,69 @@ OneButton buttDec(A1, false);  // decrement button (-)
 
 #define SETTINGS_CHOISE_COL             0
 #define SETTINGS_ADJUSTMENT_COL         7
-
+//  // put your setup code here, to run once:
+//  Serial.begin(115200);
+//  mySerial.begin(115200);
+//  delay(5000);
+//
+//  String response = "";
+//  bool exit{0};
+//
+//  // flush
+//  while(Serial.available() > 0)
+//  {
+//    char t = Serial.read();
+//  }
+//  
+//  while(true)
+//  {
+//    //0000000000000000000000000000000
+//    Serial.println("I am waiting");
+//    while(mySerial.available() == 0)
+//    {
+//           
+//    }
+//
+//    response = mySerial.readString();
+//    
+//    removeR(response);
+//        
+//    if(response.equals("ready"))
+//    {
+//      // 00000000000000000
+//      Serial.println("Get ready signal");
+//      break;
+//    }
+//  }
+//
+//  while(true)
+//  {
+//      //000000000000000000
+//      delay(2000);
+//      mySerial.println(wifiPass);
+//
+//      delay(2000);
+//      mySerial.print(wifiName); 
+//
+//      while(mySerial.available() == 0)
+//      {
+//           
+//      }
+//      
+//      response = mySerial.readString();
+//      removeR(response);
+//      
+//      
+//      if (response.equals("$"))
+//      {
+//       break;
+//      }
+//     
+//  } 
+//  delay(2000); 
+//  Serial.println("Exit from setup");
+//  mySerial.print("Meteostation greeting");
+//  /*
 // координати вказівника вибору у меню налаштувань
 byte gSettingsPointerRow;
 byte gSettingsPointerCol;
@@ -102,6 +160,14 @@ int gAdjustingMonth;   // тимчасова знінна для прийман�
 int gAdjustingYear;    // тимчасова знінна для приймання значень gYear   під час налаштування
 byte gSettingsRank = 1; // розряд для редагування чисел під час налаштування 
                         // 0 =  1(e0), 1 =  10(e1) , 2 = 100 (e2), 3 = 1000 (e3)
+
+//wifi//////////////////////////////
+////////////////////////////////////
+#define wifiName "Moto"
+#define wifiPass "ursaursa"
+
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(2, 3); 
  
 // All sensors///////////////////////
 /////////////////////////////////////
@@ -109,8 +175,6 @@ byte gSettingsRank = 1; // розряд для редагування чисел
 //#define SENSORS_SHOW_SEC    3    // (у секундах) оновлення показу сенсорів 
 //#define SENSORS_BACKUP_SEC  3    // (у секундах) зчитування з сенсорів
 #define TICK_TIME_SEC       1    // (у секундах) інтервал мигання точками
-
-bool gShowTick = 0;
 
 bool isHomeLoaded     = 0;
 bool isSettingsLoaded = 0;
@@ -141,10 +205,7 @@ void setup()
 }
 
 void loop()
-{
-  // зчитання сигналу з OK кнопки
-  /////////////////////////////////
-   
+{   
     if(gMode ==  MODE_HOME)
     {
      // виведення даних з сенсорів
@@ -182,6 +243,7 @@ void loop()
     gTimerClock += 1;
     backupClock();
   }
-
+  // зчитання сигналу з OK кнопки
+  /////////////////////////////////
   buttOk.tick();
 }
