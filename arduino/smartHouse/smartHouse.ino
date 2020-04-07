@@ -26,7 +26,7 @@ int gSettingsAdjustingNumberOfTimeDomains; //  тимчасова знінна �
 
 RTC_DS3231 rtc;
 
-#define RESET_CLOCK 1
+#define RESET_CLOCK 0
 
 byte gHour;
 byte gMinute;
@@ -181,8 +181,8 @@ void loop()
     if (gNumberOfTimeDomains <= passedTimeDomains)
     {            
        insertDataToMySql(
-       (unsigned int)(tempForSql * 100 /(gNumberOfTimeDomains+1)),
-       (unsigned int)(humForSql  * 100 /(gNumberOfTimeDomains+1)),
+       (unsigned long)(tempForSql * 100 /(gNumberOfTimeDomains+1)),
+       (unsigned long)(humForSql  * 100 /(gNumberOfTimeDomains+1)),
        (unsigned long)(presForSql* 100 /(gNumberOfTimeDomains+1)),
        (unsigned long)(altForSql * 100 /(gNumberOfTimeDomains+1)));
        

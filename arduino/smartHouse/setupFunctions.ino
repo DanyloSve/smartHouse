@@ -23,6 +23,7 @@ void setupSerial()
     }
 
     response = mySerial.readString();
+    removeR(response);
          
     if(response.equals("ready"))
     {
@@ -32,26 +33,40 @@ void setupSerial()
 
   while(true)
   {
-      delay(2000);
-      mySerial.write(wifiPass);
+      
+      mySerial.print(wifiPass);
 
       delay(2000);
-      mySerial.write(wifiName); 
+      mySerial.print(wifiName); 
 
       while(mySerial.available() == 0)
       {
            
       }
       
-      response = mySerial.readString();;    
+      response = mySerial.readString(); 
+      removeR(response);
       
       if (response.equals("$"))
       {
        break;
       }
+      delay(2000);
      
   } 
   delay(2000); 
+}
+
+void removeR(String &s)
+{
+  for(int i{s.length() - 2}; s[i] !=  '\0'; i++)
+  {
+    if (s[i] == '\r')
+    {
+      s.remove(i);
+      break;
+    }
+  }
 }
 
 void setupBME()
@@ -111,7 +126,7 @@ void setupLCD()
 
 void setupMsTimer()
 {
-  MsTimer2::set(ONE_SECOND_MILLI_SEC, toTimer); // Здесь задаем период 1 секунда
+  MsTimer2::set(ONE_SECOND_MILLI_SEC, toTimer); 
   MsTimer2::start();
 }
 
