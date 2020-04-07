@@ -14,14 +14,10 @@ double gAlt; // altitude
 
 int gSensorReadTimeDomainSec = 3; // часовий проміжок зчитування з сенсорів
 int gSensorShowSec           = 3; // часовий період виведення даних з сенсорів MODE_HOME
-int gNumberOfTimeDomains     = 1; // кількість проміжків для зчитування з сенсорів для знятття усередненого значення
+int gNumberOfTimeDomains     = 20; // кількість проміжків для зчитування з сенсорів для знятття усередненого значення
 
 int gSettingsAdjustingSensorReadTimeDomainSec; // тимчасова знінна для приймання значень gSensorReadTimeDomainSec під час налаштування
 int gSettingsAdjustingNumberOfTimeDomains; //  тимчасова знінна для приймання значень gNumberOfTimeDomains  під час налаштування
-
-//double gTempArr[24];
-//double gHumArr[24];
-//double gPressArr[24];
 
 // DS3231 RTC/////////////////////////
 ///////////////////////////////////////
@@ -53,7 +49,7 @@ LiquidCrystal_I2C lcd(I2C_ADDR, 20, 4);
 #include <MsTimer2.h>
 
 #define ONE_SECOND_MILLI_SEC  996
-#define CALIBRATE_CLOCK_MIN 15
+#define CALIBRATE_CLOCK_MIN 1
 
 // відраховує кількість пройдених секунд після запуску або оновлення таймерів
 unsigned long gTotalSec;
@@ -82,69 +78,7 @@ OneButton buttDec(A1, false);  // decrement button (-)
 
 #define SETTINGS_CHOISE_COL             0
 #define SETTINGS_ADJUSTMENT_COL         7
-//  // put your setup code here, to run once:
-//  Serial.begin(115200);
-//  mySerial.begin(115200);
-//  delay(5000);
-//
-//  String response = "";
-//  bool exit{0};
-//
-//  // flush
-//  while(Serial.available() > 0)
-//  {
-//    char t = Serial.read();
-//  }
-//  
-//  while(true)
-//  {
-//    //0000000000000000000000000000000
-//    Serial.println("I am waiting");
-//    while(mySerial.available() == 0)
-//    {
-//           
-//    }
-//
-//    response = mySerial.readString();
-//    
-//    removeR(response);
-//        
-//    if(response.equals("ready"))
-//    {
-//      // 00000000000000000
-//      Serial.println("Get ready signal");
-//      break;
-//    }
-//  }
-//
-//  while(true)
-//  {
-//      //000000000000000000
-//      delay(2000);
-//      mySerial.println(wifiPass);
-//
-//      delay(2000);
-//      mySerial.print(wifiName); 
-//
-//      while(mySerial.available() == 0)
-//      {
-//           
-//      }
-//      
-//      response = mySerial.readString();
-//      removeR(response);
-//      
-//      
-//      if (response.equals("$"))
-//      {
-//       break;
-//      }
-//     
-//  } 
-//  delay(2000); 
-//  Serial.println("Exit from setup");
-//  mySerial.print("Meteostation greeting");
-//  /*
+
 // координати вказівника вибору у меню налаштувань
 byte gSettingsPointerRow;
 byte gSettingsPointerCol;
@@ -228,6 +162,34 @@ void loop()
   {
     gTimerSensorBackup += gSensorReadTimeDomainSec;
     readBME();
+    
+    static long double tempForSql{0};
+    static long double humForSql{0};
+    static long double presForSql{0};
+    static long double altForSql{0}; // altitude
+    
+    tempForSql += gTemp;
+    humForSql  += gHum;
+    presForSql += gPres;
+    altForSql  += gAlt; 
+  
+    static int passedTimeDomains{0};
+
+    if (gNumberOfTimeDomains <= passedTimeDomains)
+    {      
+       insertDataToMySql((int)(tempForSql * 100 /(gNumberOfTimeDomains+1)),(int)(humForSql * 100/(gNumberOfTimeDomains+1)),(int)(presForSql* 100 /(gNumberOfTimeDomains+1)),
+       (int)(altForSql * 100/(gNumberOfTimeDomains+1)));
+       passedTimeDomains = 0;
+
+       tempForSql = 0;
+       humForSql = 0;
+       presForSql = 0;
+       altForSql = 0; 
+    }
+    else
+    {
+      passedTimeDomains++;
+    }   
   }
 
   // мигання точками ":"

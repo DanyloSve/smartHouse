@@ -14,6 +14,7 @@ void setupSerial()
   lcd.print(F(wifiName));
   
   mySerial.begin(115200);
+  Serial.begin(115200);
   delay(5000);
 
   String response = "";
@@ -65,7 +66,8 @@ void setupSerial()
      
   } 
   delay(2000); 
-  mySerial.print("self - 3");
+  //////////////////
+  mySerial.print("start");
 }
 
 // для видалення /r символу
