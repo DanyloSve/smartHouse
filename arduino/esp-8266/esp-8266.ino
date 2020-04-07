@@ -3,8 +3,8 @@
 #include <MySQL_Cursor.h>
 
 // налаштування сервера
-IPAddress server_addr(45,87,0,162);        // IP of the MySQL *server* here
-char user[] = "station";              // MySQL user login username
+IPAddress server_addr(45,87,0,162);        
+char user[] = "station";              
 char password[] = "@@@gENNADIymELNYk+lINUx==4eVEr2020";
 
 WiFiClient client;                 

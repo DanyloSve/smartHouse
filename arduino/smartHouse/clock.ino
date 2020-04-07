@@ -1,6 +1,3 @@
-/*
- * 
- */
 // Home Mode
 // години
 #define HOME_HOURS_ROW   0

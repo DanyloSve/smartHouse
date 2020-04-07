@@ -1,7 +1,3 @@
-/*
- * void doubleclickOk() - при виході зберігає зміни, переходить до МЕНЮ ВИБОРУ
- * void longPressStartOk() - при виході зміни НЕ зберігає, перехадить на ДОМАШНІЙ РЕЖИМ
- */
 void readBME()
 {
   bme.takeForcedMeasurement();

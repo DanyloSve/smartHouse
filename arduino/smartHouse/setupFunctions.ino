@@ -1,11 +1,3 @@
-/* 
- *  void setupSerial()
- *  void setupBME()
- *  void setupRTC()
- *  void setupLCD()
- *  
- */
-
 void setupSerial()
 {
   lcd.setCursor(0,0); 
