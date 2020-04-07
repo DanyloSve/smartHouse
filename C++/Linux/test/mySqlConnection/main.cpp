@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL"); // додаємо драйвер QMYSQLDriver для MYSQL *connection
     db.setHostName("45.87.0.162");
     db.setDatabaseName("smartHouse");
-    db.setUserName("meteostation");
+    db.setUserName("station");
     db.setPassword("@@@gENNADIymELNYk+lINUx==4eVEr2020");
 
 

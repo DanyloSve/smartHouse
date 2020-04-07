@@ -121,6 +121,9 @@ bool isSettingsExit   = 0;
 
 byte gMode = MODE_HOME;
 
+#define PLACE_ID 1 // id місця зняття даних
+                            // 0 - тестові дані
+
 ////////////////////////////////////
 void setup()
 {
@@ -163,28 +166,32 @@ void loop()
     gTimerSensorBackup += gSensorReadTimeDomainSec;
     readBME();
     
-    static long double tempForSql{0};
-    static long double humForSql{0};
-    static long double presForSql{0};
-    static long double altForSql{0}; // altitude
+    static double tempForSql{0};
+    static double humForSql{0};
+    static double presForSql{0};
+    static double altForSql{0}; // altitude
     
     tempForSql += gTemp;
     humForSql  += gHum;
     presForSql += gPres;
     altForSql  += gAlt; 
-  
+    
     static int passedTimeDomains{0};
-
+    
     if (gNumberOfTimeDomains <= passedTimeDomains)
-    {      
-       insertDataToMySql((int)(tempForSql * 100 /(gNumberOfTimeDomains+1)),(int)(humForSql * 100/(gNumberOfTimeDomains+1)),(int)(presForSql* 100 /(gNumberOfTimeDomains+1)),
-       (int)(altForSql * 100/(gNumberOfTimeDomains+1)));
+    {            
+       insertDataToMySql(
+       (unsigned int)(tempForSql * 100 /(gNumberOfTimeDomains+1)),
+       (unsigned int)(humForSql  * 100 /(gNumberOfTimeDomains+1)),
+       (unsigned long)(presForSql* 100 /(gNumberOfTimeDomains+1)),
+       (unsigned long)(altForSql * 100 /(gNumberOfTimeDomains+1)));
+       
        passedTimeDomains = 0;
 
-       tempForSql = 0;
-       humForSql = 0;
-       presForSql = 0;
-       altForSql = 0; 
+       tempForSql  = 0;
+       humForSql   = 0;
+       presForSql  = 0;
+       altForSql   = 0; 
     }
     else
     {

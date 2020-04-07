@@ -299,14 +299,12 @@ void clickDec()
   }
 }
 
-/*double &tempForSql,double &humForSql,double &presForSql,double &altForSql*/
-void insertDataToMySql(int tempForSql,int humForSql,int presForSql,int altForSql)
+void insertDataToMySql(unsigned int tempForSql,unsigned int humForSql,unsigned long presForSql,unsigned long altForSql)
 {
-  char queryData[150];
-//
-//  sprintf(queryData,"%s,%s,%s,%s,%s-%s-%s %s:%s", tempChar, humChar, presChar, altChar, yearChar, monthChar, dayChar, minuteChar);
-//                   // t, h, p, a,yy-mm-dd hh:mm
- sprintf(queryData,"%d,%d,%d-%d-%d %d:%d", tempForSql, humForSql, gYear, gMonth, gDay, gHour, gMinute);
-                   // t, h, p, a,yy-mm-dd hh:mm
+ char queryData[50];
+ ////////////////////////////////////////////////////////////////
+       Serial.print("//////////////////////////////");
+       Serial.println(presForSql);
+ sprintf(queryData,"%u,'%u-%u-%u %u:%u',%u,%u,%lu,%lu",PLACE_ID,gYear,gMonth,gDay,gHour,gMinute,tempForSql,humForSql,presForSql,altForSql);
  mySerial.print(queryData);
 }

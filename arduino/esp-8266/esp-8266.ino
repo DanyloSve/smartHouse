@@ -4,7 +4,7 @@
 
 // налаштування сервера
 IPAddress server_addr(45,87,0,162);        // IP of the MySQL *server* here
-char user[] = "meteostation";              // MySQL user login username
+char user[] = "station";              // MySQL user login username
 char password[] = "@@@gENNADIymELNYk+lINUx==4eVEr2020";
 
 WiFiClient client;                 
@@ -14,6 +14,7 @@ MySQL_Cursor* cursor;
 // $ - success
 // # - unsuccess
 
+// для дебагу: не забути забрати /r/n у кінці рядка
 void setup()
 {
   // put your setup code here, to run once:
@@ -37,20 +38,18 @@ void setup()
     {
        if(count == 3000000) // wait eppr 20s - 21s
       {
-          Serial.print("ready");
+          Serial.write("ready");
           count = 0;
       }
       count++;
     }  
     String wifiPass = Serial.readString(); 
-    removeR(wifiPass);
     
    while(Serial.available() == 0)
    {
       
    } 
    String wifiName = Serial.readString();  
-   removeR(wifiName);
 
    WiFi.begin(wifiName, wifiPass);
   
@@ -69,13 +68,12 @@ void setup()
     if (count !=  15)
     {
       delay(500);
-      Serial.print("$");
+      Serial.write("$");
       
       break;
     }
   }
  conn.connect(server_addr, 3306, user, password);
-   // create MySQL cursor object
   cursor = new MySQL_Cursor(&conn);
 }
 
@@ -89,20 +87,7 @@ void loop()
   String incommingStr = Serial.readString();
   char buff[incommingStr.length() + 1];
   incommingStr.toCharArray(buff, incommingStr.length() + 1);
-  char query[100];
-  sprintf (query, "INSERT INTO smartHouse.testTable(text) VALUES ('%s')",buff);
-  
+  char query[85 + incommingStr.length() + 1];
+  sprintf (query, "INSERT INTO smartHouse.tblCollectedData(placeId,time,tempr,hum,press,alt)VALUES(%s)", buff);
   cursor->execute(query);
-}
-
-void removeR(String &s)
-{
-  for(int i{s.length() - 2}; s[i] !=  '\0'; i++)
-  {
-    if (s[i] == '\r')
-    {
-      s.remove(i);
-      break;
-    }
-  }
 }

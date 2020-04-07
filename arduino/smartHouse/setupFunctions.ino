@@ -8,13 +8,11 @@
 
 void setupSerial()
 {
-
   lcd.setCursor(0,0); 
   lcd.print(F("WIFI "));
   lcd.print(F(wifiName));
   
   mySerial.begin(115200);
-  Serial.begin(115200);
   delay(5000);
 
   String response = "";
@@ -33,9 +31,7 @@ void setupSerial()
     }
 
     response = mySerial.readString();
-    
-    removeR(response);
-        
+         
     if(response.equals("ready"))
     {
       break;
@@ -45,19 +41,17 @@ void setupSerial()
   while(true)
   {
       delay(2000);
-      mySerial.println(wifiPass);
+      mySerial.write(wifiPass);
 
       delay(2000);
-      mySerial.print(wifiName); 
+      mySerial.write(wifiName); 
 
       while(mySerial.available() == 0)
       {
            
       }
       
-      response = mySerial.readString();;
-      removeR(response);
-      
+      response = mySerial.readString();;    
       
       if (response.equals("$"))
       {
@@ -66,21 +60,6 @@ void setupSerial()
      
   } 
   delay(2000); 
-  //////////////////
-  mySerial.print("start");
-}
-
-// для видалення /r символу
-void removeR(String &s)
-{
-  for(int i{s.length() - 2}; s[i] !=  '\0'; i++)
-  {
-    if (s[i] == '\r')
-    {
-      s.remove(i);
-      break;
-    }
-  }
 }
 
 void setupBME()
