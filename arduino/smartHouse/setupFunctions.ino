@@ -9,11 +9,6 @@ void setupSerial()
 
   String response = "";
   bool exit{0};
-
-  while(Serial.available() > 0)
-  {
-    char t = Serial.read();
-  }
   
   while(true)
   {
