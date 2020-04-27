@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL"); // додаємо драйвер QMYSQLDriver для MYSQL *connection
     db.setHostName("45.87.0.162");
     db.setDatabaseName("smartHouse");
-    db.setUserName("station");
-    db.setPassword("@@@gENNADIymELNYk+lINUx==4eVEr2020");
+    db.setUserName("displayData");
+    db.setPassword("@@@gENADIy.mELNYk+lINUx==4eVEr2020");
 
 
     if (db.open())
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     }
 
     QSqlQuery query;
-    query.exec("INSERT INTO testTable(text) VALUES ('Hello from Arduino')");
+//    query.exec("INSERT INTO testTable(text) VALUES ('Hello from Arduino')");
 
 //    while(query.next())
 //    {
@@ -54,19 +54,29 @@ int main(int argc, char *argv[])
 //    query.bindValue(":alias_name", alias_name);
 //    query.exec();
 
-//    query.exec("Select * FROM category;");
+    query.exec("Select * FROM ("
+               "SELECT * FROM `tblCollectedData` ORDER BY id DESC LIMIT 10"
+               ") sub "
+               "ORDER BY id ASC;");
 
-//    qDebug() << "\n";
-//    while(query.next())
-//    {
-//        int id       = query.value(0).toInt();
-//        QString name = query.value(1).toString();
-//        int discount = query.value(2).toInt();
-//        QString alias_name = query.value(3).toString();
-//        qDebug() << "ID: " << id
-//                 << "name:" << name
-//                 << "discount" << discount
-//                 << "alias_name: " << alias_name;
-//    }
+    qDebug() << "\n";
+    while(query.next())
+    {
+        int id       = query.value(0).toInt();
+        int placeId = query.value(1).toInt();
+        QDateTime time = query.value(2).toDateTime();
+        int tempr = query.value(3).toInt();
+        int hum = query.value(4).toInt();
+        int press = query.value(5).toInt();
+        int alt = query.value(6).toInt();
+
+        qDebug() << "ID: " << id
+                 << "place Id:" << placeId
+                 << "time:" << time
+                 << "tempr: " << tempr
+                 << "hum: " << hum
+                 << "press: " << press
+                 << "alt: " << alt;
+    }
 
 }
