@@ -5,10 +5,15 @@
 #include <QVector>
 #include <QDateTime>
 
+#include <QSqlDatabase>
+#include <QtSql>
+
 
 class DataBaseProcessing : public QObject
 {
     Q_OBJECT
+    QSqlDatabase db;
+
     const ushort cmForward{1};
     const ushort cmBackward{2};
     const ushort cmUpdate{0};
@@ -20,11 +25,13 @@ class DataBaseProcessing : public QObject
     QVector <QDateTime> mDateTime;
     QVector <int> mId;
 
-    void newDataInsertCheck();
+
 public:
     explicit DataBaseProcessing(QObject *parent = nullptr);
     bool connectToServer();
     void readFromDataBase();
+
+    bool newDataInsertCheck();
 
     QVector <double> getHumidity();
     QVector <double> getTemperature();

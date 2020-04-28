@@ -25,6 +25,7 @@ public:
    void setColor(QColor& color);
    QColor getColor();
    void addDate(const QDate &date);
+   QVector <QDate> getDates();
    void removeDate(const QDate &date);
 
 protected:

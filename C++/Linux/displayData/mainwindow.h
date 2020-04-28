@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow
     QTimer *mUpdateGraphicsTimer;
     QTimer *mUpdateClock;
 
-    const int cmUpadateGraphicsTimeMs = 60000;
+    const int cmUpadateGraphicsTimeMs = 30000;
     const int cmUpdateClockTimeMs = 1000;
 
     void displayAllData();

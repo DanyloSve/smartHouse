@@ -32,6 +32,11 @@ void NewCalendarWidget::addDate(const QDate &date)
     }
 }
 
+QVector<QDate> NewCalendarWidget::getDates()
+{
+    return  mDates;
+}
+
 void NewCalendarWidget::removeDate(const QDate &date)
 {
     for (int i{0}; i < mDates.size() - 1; i++)

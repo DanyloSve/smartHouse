@@ -1,7 +1,5 @@
 #include "databaseprocessing.h"
 
-#include <QSqlDatabase>
-#include <QtSql>
 
 DataBaseProcessing::DataBaseProcessing(QObject *parent) : QObject(parent)
 {
@@ -10,7 +8,7 @@ DataBaseProcessing::DataBaseProcessing(QObject *parent) : QObject(parent)
 
 bool DataBaseProcessing::connectToServer()
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL"); // додаємо драйвер QMYSQLDriver для MYSQL *connection
+    db = QSqlDatabase::addDatabase("QMYSQL"); // додаємо драйвер QMYSQLDriver для MYSQL *connection
     db.setHostName("45.87.0.162");
     db.setDatabaseName("smartHouse");
     db.setUserName("displayData");
@@ -19,23 +17,70 @@ bool DataBaseProcessing::connectToServer()
     return db.open();
 }
 
-void DataBaseProcessing::newDataInsertCheck()
+bool DataBaseProcessing::newDataInsertCheck()
 {
     QSqlQuery query;
     int tmpId{mId[mId.size() - 1]};
-    query.exec("Select `id` FROM `tblCollectedData` ORDER BY id DESC");
+    query.exec("SELECT MAX(`id`) FROM `tblCollectedData`;");
     while(query.next())
     {
         tmpId = query.value(0).toInt();
     }
+
     if (tmpId != mId[mId.size() - 1])
     {
-        emit sDatabaseUpdate();
+        return 1;
+    }
+    else
+    {
+        return 0;
     }
 }
 
 void DataBaseProcessing::readFromDataBase()
 {
+    if (!db.open())
+    {
+        connectToServer();
+    }
+
+    if (!mId.isEmpty())
+    {
+        mId.erase(mId.begin(), mId.end());
+    }
+
+    if (!mDateTime.isEmpty())
+    {
+        mDateTime.erase(mDateTime.begin(), mDateTime.end());
+    }
+
+    if (!mTemperature.isEmpty())
+    {
+        mTemperature.erase(mTemperature.begin(), mTemperature.end());
+    }
+
+    if (!mHumidity.isEmpty())
+    {
+        mHumidity.erase(mHumidity.begin(), mHumidity.end());
+    }
+
+    if (!mPressure.isEmpty())
+    {
+        mPressure.erase(mPressure.begin(), mPressure.end());
+    }
+
+    if (!mAltitude.isEmpty())
+    {
+        mAltitude.erase(mAltitude.begin(), mAltitude.end());
+    }
+
+//    eraseQVector(mId);
+//    eraseQVector(mDateTime);
+//    eraseQVector(mTemperature);
+//    eraseQVector(mHumidity);
+//    eraseQVector(mPressure);
+//    eraseQVector(mAltitude);
+
     QSqlQuery query;
     query.exec("Select * FROM ("
                "SELECT * FROM `tblCollectedData` ORDER BY id DESC LIMIT 10"
@@ -55,16 +100,18 @@ void DataBaseProcessing::readFromDataBase()
     }
 
 
-        for (int i{0}; i != 10; i++)
+        for (int i{0}; i != mDateTime.size() - 1; i++)
         {
             qDebug() << mId[i]
             << mDateTime[i]
             << mTemperature[i]
             << mHumidity[i]
+            << mPressure[i]
             << mAltitude[i];
 
         }
 }
+
 
 QVector<double> DataBaseProcessing::getHumidity()
 {
@@ -95,3 +142,4 @@ void DataBaseProcessing::scroll(int side)
 {
 
 }
+

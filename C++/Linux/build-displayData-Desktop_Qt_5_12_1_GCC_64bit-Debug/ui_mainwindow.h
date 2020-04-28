@@ -16,7 +16,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "newcalendarwidget.h"
@@ -48,7 +47,6 @@ public:
     QPushButton *btnAverageData;
     QPushButton *btnClock;
     NewCalendarWidget *calendarWidget;
-    QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -243,9 +241,6 @@ public:
         gridLayout_2->addLayout(verticalLayout_2, 0, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
-        statusbar = new QStatusBar(MainWindow);
-        statusbar->setObjectName(QString::fromUtf8("statusbar"));
-        MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
 
