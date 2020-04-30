@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow
     const int cmUpadateGraphicsTimeMs = 30000;
     const int cmUpdateClockTimeMs = 1000;
 
+    void receiveLastData();
     void displayAllData();
     void displayTemperature();
     void displayHumidity();
@@ -32,14 +33,17 @@ class MainWindow : public QMainWindow
     void displayAverageData();
     void displayClock();
     void createTimeAxis();
-    double maximum(QVector<double> v);
-    double minimum(QVector<double> v);
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 
+
+private slots:
+    void on_btnClock_clicked();
+
+    void on_calendarWidget_clicked(const QDate &date);
 
 private:
     Ui::MainWindow *ui;

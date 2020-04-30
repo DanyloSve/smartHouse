@@ -23,21 +23,35 @@ class DataBaseProcessing : public QObject
     QVector <double> mPressure;
     QVector <double> mAltitude;
     QVector <QDateTime> mDateTime;
+    QVector <double> mRangeX;
     QVector <int> mId;
+
+    int mTickNumberX;
+    int mTickNumberY;
+    const int cmDataNumberLastInsert{10};
+    const int cmDataNumberDay{12};
 
 
 public:
     explicit DataBaseProcessing(QObject *parent = nullptr);
     bool connectToServer();
-    void readFromDataBase();
+    void readLastInsert();
+    void readDay(QDate day);
 
     bool newDataInsertCheck();
+
 
     QVector <double> getHumidity();
     QVector <double> getTemperature();
     QVector <double> getPressure();
     QVector <double> getAltitude();
     QVector <QDateTime> getDateTime();
+    QVector <double> getRangeX();
+    QVector <double> getRangeY(QVector <double> data);
+    double maximum(QVector <double> data);
+    double minimum(QVector <double> data);
+    int getTickNumberX();
+    int getTickNumberY(QVector <double> data);
 
     void scroll(int side);
 

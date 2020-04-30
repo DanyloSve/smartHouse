@@ -11,39 +11,45 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mDataBase = new DataBaseProcessing;
 
-    mUpdateGraphicsTimer = new QTimer;
-    connect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::displayAllData);
-    mUpdateGraphicsTimer->start(cmUpadateGraphicsTimeMs);
-
-    mUpdateClock = new QTimer;
-    connect(mUpdateClock, &QTimer::timeout, this, &MainWindow::displayClock);
-    mUpdateClock->start(cmUpdateClockTimeMs);
-
     if (mDataBase->connectToServer())
     {
+        mUpdateGraphicsTimer = new QTimer;
+        connect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::receiveLastData);
+        mUpdateGraphicsTimer->start(cmUpadateGraphicsTimeMs);
+
+        mUpdateClock = new QTimer;
+        connect(mUpdateClock, &QTimer::timeout, this, &MainWindow::displayClock);
+        mUpdateClock->start(cmUpdateClockTimeMs);
+
+
         ui->pltTempr->setLocale(QLocale(QLocale::Ukrainian, QLocale::Ukraine));
         ui->pltPress->setLocale(QLocale(QLocale::Ukrainian, QLocale::Ukraine));
         ui->pltHum->setLocale(QLocale(QLocale::Ukrainian, QLocale::Ukraine));
 
-        mDataBase->readFromDataBase();
-        createTimeAxis();
-        displayTemperature();
-        displayHumidity();
-        displayPressure();
-        displayAverageData();
+        receiveLastData();
     }
 }
+void MainWindow::receiveLastData()
+{
+    mDataBase->readLastInsert();
+    displayAllData();
+}
+
 void MainWindow::displayAllData()
 {
-
-           mDataBase->readFromDataBase();
-           createTimeAxis();
-           displayTemperature();
-           displayHumidity();
-           displayPressure();
-           displayAverageData();
-
-   }
+    createTimeAxis();
+    if (!mTimeAxis.isEmpty() &&
+            !mDataBase->getTemperature().isEmpty() &&
+            !mDataBase->getHumidity().isEmpty() &&
+            !mDataBase->getPressure().isEmpty() &&
+            !mDataBase->getHumidity().isEmpty())
+    {
+         displayTemperature();
+         displayHumidity();
+         displayPressure();
+         displayAverageData();
+    }
+}
 
 void MainWindow::displayTemperature()
 {
@@ -56,18 +62,18 @@ void MainWindow::displayTemperature()
 
     ui->pltTempr->graph(0)->rescaleAxes(true);
 
-    ui->pltTempr->xAxis->setRange(mTimeAxis.first(), mTimeAxis.last() + (mTimeAxis[mTimeAxis.size() - 1] - mTimeAxis[mTimeAxis.size() - 2 ]) / 2);
+    ui->pltTempr->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] + (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) /(2* mDataBase->getDateTime().size()));
     QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
     dateTicker->setDateTimeFormat("hh:mm\n");
     ui->pltTempr->xAxis->setTicker(dateTicker);
-    ui->pltTempr->xAxis->ticker()->setTickCount(mDataBase->getDateTime().size());
-    //ui->pltTempr->yAxis->ticker()->setTickCount(5);
+    ui->pltTempr->xAxis->ticker()->setTickCount(mDataBase->getTickNumberX());
+
     ui->pltTempr->yAxis->setNumberFormat("f");
     ui->pltTempr->yAxis->setNumberPrecision(2);
 
-    double deltaY{(maximum(mDataBase->getTemperature()) - minimum(mDataBase->getTemperature())) / mDataBase->getTemperature().size()};
+    ui->pltTempr->yAxis->setRange(mDataBase->getRangeY(mDataBase->getTemperature())[0], mDataBase->getRangeY(mDataBase->getTemperature())[1]);
+    ui->pltTempr->yAxis->ticker()->setTickCount(mDataBase->getTickNumberY(mDataBase->getTemperature()));
 
-    ui->pltTempr->yAxis->setRange(minimum(mDataBase->getTemperature()) - deltaY, maximum(mDataBase->getTemperature())+deltaY);
     ui->lblTemprIndicator->setText(QString::number(mDataBase->getTemperature()[mDataBase->getTemperature().size() - 1], 'f', 2) + " °C");
 
     ui->pltTempr->replot();
@@ -84,21 +90,16 @@ void MainWindow::displayHumidity()
     ui->pltHum->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
 
     ui->pltHum->graph(0)->rescaleAxes(true);
-     ui->pltHum->xAxis->setRange(mTimeAxis.first(), mTimeAxis.last() + (mTimeAxis[mTimeAxis.size() - 1] - mTimeAxis[mTimeAxis.size() - 2 ]) / 2);
+     ui->pltHum->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] + (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) / (2* mDataBase->getDateTime().size()));
     QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
     dateTicker->setDateTimeFormat("hh:mm\n");
     ui->pltHum->xAxis->setTicker(dateTicker);
-    ui->pltHum->xAxis->ticker()->setTickCount(mDataBase->getDateTime().size());
-    //ui->pltHum->yAxis->ticker()->setTickCount(5);
+    ui->pltHum->xAxis->ticker()->setTickCount(mDataBase->getTickNumberX());
     ui->pltHum->yAxis->setNumberFormat("f");
     ui->pltHum->yAxis->setNumberPrecision(2);
 
-    double delta{(maximum(mDataBase->getHumidity()) - minimum(mDataBase->getHumidity())) / mDataBase->getHumidity().size()};
-//    if (delta == 0)
-//    {
-//       delta = 2;
-//    }
-    ui->pltHum->yAxis->setRange(minimum(mDataBase->getHumidity()) - delta, maximum(mDataBase->getHumidity())+delta);
+    ui->pltHum->yAxis->setRange(mDataBase->getRangeY(mDataBase->getHumidity())[0], mDataBase->getRangeY(mDataBase->getHumidity())[1]);
+    ui->pltHum->yAxis->ticker()->setTickCount(mDataBase->getTickNumberY(mDataBase->getHumidity()));
 
     ui->lblHumIndicator->setText(QString::number(mDataBase->getHumidity()[mDataBase->getHumidity().size() - 1], 'f', 2) + " %");
     ui->pltHum->replot();
@@ -106,7 +107,7 @@ void MainWindow::displayHumidity()
 
 void MainWindow::displayPressure()
 {
-    //ui->pltPress->rescaleAxes();
+    ui->pltPress->rescaleAxes();
     ui->pltPress->addGraph();
     ui->pltPress->graph(0)->setPen(QPen(Qt::blue));
 
@@ -114,22 +115,17 @@ void MainWindow::displayPressure()
     ui->pltPress->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
 
     ui->pltPress->graph(0)->rescaleAxes(true);
-    ui->pltPress->xAxis->setRange(mTimeAxis.first(), mTimeAxis.last() + (mTimeAxis[mTimeAxis.size() - 1] - mTimeAxis[mTimeAxis.size() - 2 ]) / 2);
+    ui->pltPress->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] + (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) /(2* mDataBase->getDateTime().size()));
     QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
     dateTicker->setDateTimeFormat("hh:mm\n");
     ui->pltPress->xAxis->setTicker(dateTicker);
-    ui->pltPress->xAxis->ticker()->setTickCount(mDataBase->getDateTime().size());
-    //ui->pltPress->yAxis->ticker()->setTickCount(5);
+    ui->pltPress->xAxis->ticker()->setTickCount(mDataBase->getTickNumberX());
+
     ui->pltPress->yAxis->setNumberFormat("f");
     ui->pltPress->yAxis->setNumberPrecision(3);
 
-    double delta{(maximum(mDataBase->getPressure()) - minimum(mDataBase->getPressure())) / mDataBase->getPressure().size()};
-    if (delta == 0.0)
-    {
-       delta = 2;
-    }
-    ui->pltPress->yAxis->setRange(minimum(mDataBase->getPressure()) - delta, maximum(mDataBase->getPressure())+delta);
-
+    ui->pltPress->yAxis->setRange(mDataBase->getRangeY(mDataBase->getPressure())[0], mDataBase->getRangeY(mDataBase->getPressure())[1]);
+    ui->pltPress->yAxis->ticker()->setTickCount(mDataBase->getTickNumberY(mDataBase->getPressure()));
     ui->lblPressIndicator->setText(QString::number(mDataBase->getPressure()[mDataBase->getPressure().size() - 1], 'f', 2) + " mm");
 
     ui->pltPress->replot();
@@ -183,8 +179,6 @@ void MainWindow::displayClock()
                 ui->calendarWidget->addDate(dateTime.date());
             }
 
-
-
             ui->btnClock->setText("Дані за: \n" + locale.toString(mDataBase->getDateTime()[0], "dd.MM.yyyy") + " - "
                                   +locale.toString(mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1], "dd.MM.yyyy") + '\n'
                     + mDataBase->getDateTime()[0].toString("hh:mm") + " - "
@@ -195,48 +189,49 @@ void MainWindow::displayClock()
 
 void MainWindow::createTimeAxis()
 {
-    if (!mTimeAxis.isEmpty())
+    if (!mDataBase->getDateTime().isEmpty())
     {
-        mTimeAxis.erase(mTimeAxis.begin(), mTimeAxis.end());
-    }
 
-    for (QDateTime time : mDataBase->getDateTime())
-    {
-        mTimeAxis.push_back(time.toTime_t());
+        if (!mTimeAxis.isEmpty())
+        {
+            mTimeAxis.erase(mTimeAxis.begin(), mTimeAxis.end());
+        }
+
+
+        for (QDateTime time : mDataBase->getDateTime())
+        {
+            mTimeAxis.push_back(time.toTime_t());
+        }
     }
 }
-
-double MainWindow::maximum(QVector<double> v)
-{
-    double tmp = v[0];
-    for (double itm : v)
-    {
-            if (tmp < itm)
-            {
-                tmp = itm;
-            }
-    }
-    return tmp;
-}
-
-double MainWindow::minimum(QVector<double> v)
-{
-    double tmp = v[0];
-    for (double itm : v)
-    {
-            if (tmp > itm)
-            {
-                tmp = itm;
-            }
-    }
-    return tmp;
-}
-
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+void MainWindow::on_btnClock_clicked()
+{
+    this->disconnect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::displayAllData);
+    //this->disconnect();
+    QDate day(QDateTime::currentDateTime().date());
+    mDataBase->readDay(day);
+    displayAllData();
+}
 
+void MainWindow::on_calendarWidget_clicked(const QDate &date)
+{
+    this->disconnect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::displayAllData);
+    //this->disconnect();
+    QDate day(ui->calendarWidget->selectedDate());
+    mDataBase->readDay(day);
 
+    if (!mDataBase->getDateTime().isEmpty())
+    {
+        displayAllData();
+    }
+//    else
+//    {
+//        on_btnClock_clicked();
+//    }
+}
