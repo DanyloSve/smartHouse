@@ -28,7 +28,7 @@ class DataBaseProcessing : public QObject
 
     int mTickNumberX;
     int mTickNumberY;
-    const int cmDataNumberLastInsert{10};
+    const int cmDataNumberLastInsert{12};
     const int cmDataNumberDay{12};
 
 
@@ -36,11 +36,12 @@ public:
     explicit DataBaseProcessing(QObject *parent = nullptr);
     bool connectToServer();
     void readLastInsert();
-    void readDay(QDate day);
+    void readDay(QDate day);   
+    void readInterval(QDateTime &start, QDateTime &end);
 
     bool newDataInsertCheck();
 
-
+    QVector <int>    getId();
     QVector <double> getHumidity();
     QVector <double> getTemperature();
     QVector <double> getPressure();
@@ -53,7 +54,10 @@ public:
     int getTickNumberX();
     int getTickNumberY(QVector <double> data);
 
-    void scroll(int side);
+    void clearAllVectors();
+    void scrollForward();
+    void scrollBack();
+
 
 signals:
     void sDatabaseUpdate();

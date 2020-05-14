@@ -29,7 +29,7 @@ public:
     QWidget *centralwidget;
     QGridLayout *gridLayout_2;
     QHBoxLayout *horizontalLayout;
-    QPushButton *pushButton;
+    QPushButton *bttnBack;
     QVBoxLayout *verticalLayout;
     QGridLayout *gridLayout;
     QLabel *lblHum;
@@ -41,8 +41,8 @@ public:
     QCustomPlot *pltTempr;
     QCustomPlot *pltHum;
     QCustomPlot *pltPress;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_2;
+    QPushButton *bttnReturn;
+    QPushButton *bttnForward;
     QVBoxLayout *verticalLayout_2;
     QPushButton *btnAverageData;
     QPushButton *btnClock;
@@ -59,16 +59,16 @@ public:
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        bttnBack = new QPushButton(centralwidget);
+        bttnBack->setObjectName(QString::fromUtf8("bttnBack"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy);
-        pushButton->setFlat(true);
+        sizePolicy.setHeightForWidth(bttnBack->sizePolicy().hasHeightForWidth());
+        bttnBack->setSizePolicy(sizePolicy);
+        bttnBack->setFlat(true);
 
-        horizontalLayout->addWidget(pushButton);
+        horizontalLayout->addWidget(bttnBack);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
@@ -156,23 +156,23 @@ public:
 
         verticalLayout->addLayout(gridLayout);
 
-        pushButton_3 = new QPushButton(centralwidget);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        sizePolicy1.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy1);
+        bttnReturn = new QPushButton(centralwidget);
+        bttnReturn->setObjectName(QString::fromUtf8("bttnReturn"));
+        sizePolicy1.setHeightForWidth(bttnReturn->sizePolicy().hasHeightForWidth());
+        bttnReturn->setSizePolicy(sizePolicy1);
 
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(bttnReturn);
 
 
         horizontalLayout->addLayout(verticalLayout);
 
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        sizePolicy.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
-        pushButton_2->setSizePolicy(sizePolicy);
-        pushButton_2->setFlat(true);
+        bttnForward = new QPushButton(centralwidget);
+        bttnForward->setObjectName(QString::fromUtf8("bttnForward"));
+        sizePolicy.setHeightForWidth(bttnForward->sizePolicy().hasHeightForWidth());
+        bttnForward->setSizePolicy(sizePolicy);
+        bttnForward->setFlat(true);
 
-        horizontalLayout->addWidget(pushButton_2);
+        horizontalLayout->addWidget(bttnForward);
 
 
         gridLayout_2->addLayout(horizontalLayout, 0, 0, 1, 1);
@@ -250,15 +250,15 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButton->setText(QString());
+        bttnBack->setText(QString());
         lblHum->setText(QApplication::translate("MainWindow", "\320\222\320\276\320\273\320\276\320\263\321\226\321\201\321\202\321\214", nullptr));
         lblTempr->setText(QApplication::translate("MainWindow", "\320\242\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\260", nullptr));
         lblPress->setText(QApplication::translate("MainWindow", "\320\242\320\270\321\201\320\272", nullptr));
         lblPressIndicator->setText(QApplication::translate("MainWindow", "0000.00", nullptr));
         lblHumIndicator->setText(QApplication::translate("MainWindow", "00.00 %", nullptr));
         lblTemprIndicator->setText(QApplication::translate("MainWindow", "00.00 \302\260C", nullptr));
-        pushButton_3->setText(QApplication::translate("MainWindow", "PushButton", nullptr));
-        pushButton_2->setText(QString());
+        bttnReturn->setText(QApplication::translate("MainWindow", "\320\235\320\260\320\267\320\260\320\264", nullptr));
+        bttnForward->setText(QString());
         btnAverageData->setText(QApplication::translate("MainWindow", "     \320\242\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\260\n"
 "     \320\222\320\276\320\273\320\276\320\263\321\226\321\201\321\202\321\214\n"
 "     \320\242\320\270\321\201\320\272\n"

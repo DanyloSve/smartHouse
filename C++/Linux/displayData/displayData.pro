@@ -22,16 +22,19 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp\
     newcalendarwidget.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    selectinvervaldailog.cpp
 
 HEADERS += \
     databaseprocessing.h \
     mainwindow.h\
     newcalendarwidget.h \
-    qcustomplot.h
+    qcustomplot.h \
+    selectinvervaldailog.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    selectinvervaldailog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

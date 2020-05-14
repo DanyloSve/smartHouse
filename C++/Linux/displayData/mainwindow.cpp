@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QDateTime>
 
+#include "selectinvervaldailog.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -14,13 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     if (mDataBase->connectToServer())
     {
         mUpdateGraphicsTimer = new QTimer;
-        connect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::receiveLastData);
-        mUpdateGraphicsTimer->start(cmUpadateGraphicsTimeMs);
-
         mUpdateClock = new QTimer;
-        connect(mUpdateClock, &QTimer::timeout, this, &MainWindow::displayClock);
-        mUpdateClock->start(cmUpdateClockTimeMs);
-
+        connectAllSignals();
 
         ui->pltTempr->setLocale(QLocale(QLocale::Ukrainian, QLocale::Ukraine));
         ui->pltPress->setLocale(QLocale(QLocale::Ukrainian, QLocale::Ukraine));
@@ -162,22 +159,14 @@ void MainWindow::displayClock()
     {
         if (mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1].date() == mDataBase->getDateTime()[0].date())
         {
-            ui->calendarWidget->addDate(mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1].date());
-
             ui->btnClock->setText("Дані за: \n" + locale.toString(mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1], "dd.MM.yyyy") + '\n'
                     + mDataBase->getDateTime()[0].toString("hh:mm") + " - "
                     + mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1].toString("hh:mm"));
         }
         else
         {
-            ui->calendarWidget->addDate(mDataBase->getDateTime()[0].date());
-            ui->calendarWidget->addDate(mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1].date());
 
 
-            for (QDateTime dateTime : mDataBase->getDateTime())
-            {
-                ui->calendarWidget->addDate(dateTime.date());
-            }
 
             ui->btnClock->setText("Дані за: \n" + locale.toString(mDataBase->getDateTime()[0], "dd.MM.yyyy") + " - "
                                   +locale.toString(mDataBase->getDateTime()[mDataBase->getDateTime().size() - 1], "dd.MM.yyyy") + '\n'
@@ -205,6 +194,29 @@ void MainWindow::createTimeAxis()
     }
 }
 
+void MainWindow::disconnectAllSignals()
+{
+    this->mUpdateGraphicsTimer->disconnect();
+    this->mUpdateClock->disconnect();
+}
+
+void MainWindow::connectAllSignals()
+{
+    connect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::receiveLastData);
+    mUpdateGraphicsTimer->start(cmUpadateGraphicsTimeMs);
+
+    connect(mUpdateClock, &QTimer::timeout, this, &MainWindow::displayClock);
+    mUpdateClock->start(cmUpdateClockTimeMs);
+}
+
+void MainWindow::displayInterval(QDateTime start, QDateTime end)
+{
+    QDateTime tmpStrt = start;
+    QDateTime tmpEnd = end;
+    mDataBase->readInterval(start, end);
+}
+
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -212,26 +224,68 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnClock_clicked()
 {
-    this->disconnect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::displayAllData);
-    //this->disconnect();
     QDate day(QDateTime::currentDateTime().date());
+    disconnectAllSignals();
     mDataBase->readDay(day);
     displayAllData();
+    displayClock();
 }
 
 void MainWindow::on_calendarWidget_clicked(const QDate &date)
 {
     this->disconnect(mUpdateGraphicsTimer, &QTimer::timeout, this, &MainWindow::displayAllData);
-    //this->disconnect();
+
     QDate day(ui->calendarWidget->selectedDate());
     mDataBase->readDay(day);
 
     if (!mDataBase->getDateTime().isEmpty())
     {
+
+        disconnectAllSignals();
         displayAllData();
+        displayClock();
     }
 //    else
 //    {
 //        on_btnClock_clicked();
 //    }
+}
+
+void MainWindow::on_bttnReturn_clicked()
+{
+    QDate currentDate = QDate::currentDate();
+    ui->calendarWidget->setSelectedDate(currentDate);
+    connectAllSignals();
+    receiveLastData();
+}
+
+void MainWindow::on_bttnBack_clicked()
+{
+    if (mDataBase->getId()[1] - mDataBase->getId()[0] == 1)
+    {
+        disconnectAllSignals();
+        mDataBase->scrollBack();
+        displayAllData();
+        displayClock();
+    }
+}
+
+void MainWindow::on_bttnForward_clicked()
+{
+    if (mDataBase->getId()[1] - mDataBase->getId()[0] == 1)
+    {
+        disconnectAllSignals();
+        mDataBase->scrollForward();
+        displayAllData();
+        displayClock();
+    }
+}
+
+void MainWindow::on_btnAverageData_clicked()
+{
+    disconnectAllSignals();
+    SelectInvervalDailog *D = new SelectInvervalDailog;
+    connect(D, &SelectInvervalDailog::sGetDateTimeInterval, this, &MainWindow::displayInterval);
+    D->setModal(true);
+    D->exec();
 }

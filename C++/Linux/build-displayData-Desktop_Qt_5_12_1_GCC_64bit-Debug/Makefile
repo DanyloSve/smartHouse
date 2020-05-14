@@ -56,19 +56,23 @@ SOURCES       = ../displayData/databaseprocessing.cpp \
 		../displayData/main.cpp \
 		../displayData/mainwindow.cpp \
 		../displayData/newcalendarwidget.cpp \
-		../displayData/qcustomplot.cpp moc_databaseprocessing.cpp \
+		../displayData/qcustomplot.cpp \
+		../displayData/selectinvervaldailog.cpp moc_databaseprocessing.cpp \
 		moc_mainwindow.cpp \
 		moc_newcalendarwidget.cpp \
-		moc_qcustomplot.cpp
+		moc_qcustomplot.cpp \
+		moc_selectinvervaldailog.cpp
 OBJECTS       = databaseprocessing.o \
 		main.o \
 		mainwindow.o \
 		newcalendarwidget.o \
 		qcustomplot.o \
+		selectinvervaldailog.o \
 		moc_databaseprocessing.o \
 		moc_mainwindow.o \
 		moc_newcalendarwidget.o \
-		moc_qcustomplot.o
+		moc_qcustomplot.o \
+		moc_selectinvervaldailog.o
 DIST          = /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/common/unix.conf \
 		/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/common/linux.conf \
@@ -264,11 +268,13 @@ DIST          = /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../displayData/displayData.pro ../displayData/databaseprocessing.h \
 		../displayData/mainwindow.h \
 		../displayData/newcalendarwidget.h \
-		../displayData/qcustomplot.h ../displayData/databaseprocessing.cpp \
+		../displayData/qcustomplot.h \
+		../displayData/selectinvervaldailog.h ../displayData/databaseprocessing.cpp \
 		../displayData/main.cpp \
 		../displayData/mainwindow.cpp \
 		../displayData/newcalendarwidget.cpp \
-		../displayData/qcustomplot.cpp
+		../displayData/qcustomplot.cpp \
+		../displayData/selectinvervaldailog.cpp
 QMAKE_TARGET  = displayData
 DESTDIR       = 
 TARGET        = displayData
@@ -277,7 +283,7 @@ TARGET        = displayData
 first: all
 ####### Build rules
 
-displayData: ui_mainwindow.h $(OBJECTS)  
+displayData: ui_mainwindow.h ui_selectinvervaldailog.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../displayData/displayData.pro /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/linux-g++/qmake.conf /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/features/spec_pre.prf \
@@ -694,9 +700,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../displayData/databaseprocessing.h ../displayData/mainwindow.h ../displayData/newcalendarwidget.h ../displayData/qcustomplot.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../displayData/databaseprocessing.cpp ../displayData/main.cpp ../displayData/mainwindow.cpp ../displayData/newcalendarwidget.cpp ../displayData/qcustomplot.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../displayData/mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../displayData/databaseprocessing.h ../displayData/mainwindow.h ../displayData/newcalendarwidget.h ../displayData/qcustomplot.h ../displayData/selectinvervaldailog.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../displayData/databaseprocessing.cpp ../displayData/main.cpp ../displayData/mainwindow.cpp ../displayData/newcalendarwidget.cpp ../displayData/qcustomplot.cpp ../displayData/selectinvervaldailog.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../displayData/mainwindow.ui ../displayData/selectinvervaldailog.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -728,9 +734,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /home/daniel/.Qt/5.12.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_databaseprocessing.cpp moc_mainwindow.cpp moc_newcalendarwidget.cpp moc_qcustomplot.cpp
+compiler_moc_header_make_all: moc_databaseprocessing.cpp moc_mainwindow.cpp moc_newcalendarwidget.cpp moc_qcustomplot.cpp moc_selectinvervaldailog.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_databaseprocessing.cpp moc_mainwindow.cpp moc_newcalendarwidget.cpp moc_qcustomplot.cpp
+	-$(DEL_FILE) moc_databaseprocessing.cpp moc_mainwindow.cpp moc_newcalendarwidget.cpp moc_qcustomplot.cpp moc_selectinvervaldailog.cpp
 moc_databaseprocessing.cpp: ../displayData/databaseprocessing.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QObject \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject.h \
@@ -789,6 +795,210 @@ moc_databaseprocessing.cpp: ../displayData/databaseprocessing.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QSqlDatabase \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsql-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSql \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSqlDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCore \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariant.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdebug.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlocale.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qset.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborvalue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborcommon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/quuid.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcbormap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfloat16.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcollator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdir.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qendian.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qexception.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QStringList \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuture.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qisenum.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmargins.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocess.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qqueue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrandom.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrect.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsize.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qresource.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopeguard.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsettings.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstack.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthread.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriver.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlerror.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlfield.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlindex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrecord.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpalette.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcolor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgb.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qbrush.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qregion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtransform.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qimage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfont.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcursor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qicon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyle.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlistview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcombobox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlresult.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlversion.h \
 		moc_predefs.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/bin/moc
 	/home/daniel/.Qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /home/daniel/GIT/smartHouse/C++/Linux/build-displayData-Desktop_Qt_5_12_1_GCC_64bit-Debug/moc_predefs.h -I/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/home/daniel/GIT/smartHouse/C++/Linux/displayData -I/home/daniel/.Qt/5.12.1/gcc_64/include -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtNetwork -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../displayData/databaseprocessing.h -o moc_databaseprocessing.cpp
@@ -905,9 +1115,160 @@ moc_mainwindow.cpp: ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVector \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDateTime \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QTimer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QSqlDatabase \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsql-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSql \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSqlDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCore \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydatapointer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborvalue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborcommon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/quuid.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcbormap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfloat16.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcollator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdir.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qendian.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qexception.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QStringList \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuture.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qisenum.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocess.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qqueue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrandom.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qresource.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopeguard.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsettings.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstack.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthread.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriver.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlerror.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlfield.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlindex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrecord.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyle.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlistview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcombobox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlresult.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QTimer \
 		moc_predefs.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/bin/moc
 	/home/daniel/.Qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /home/daniel/GIT/smartHouse/C++/Linux/build-displayData-Desktop_Qt_5_12_1_GCC_64bit-Debug/moc_predefs.h -I/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/home/daniel/GIT/smartHouse/C++/Linux/displayData -I/home/daniel/.Qt/5.12.1/gcc_64/include -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtNetwork -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../displayData/mainwindow.h -o moc_mainwindow.cpp
@@ -1018,6 +1379,12 @@ moc_newcalendarwidget.cpp: ../displayData/newcalendarwidget.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvector2d.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QColor \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDate \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPen \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpen.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QBrush \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVector \
 		moc_predefs.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/bin/moc
 	/home/daniel/.Qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /home/daniel/GIT/smartHouse/C++/Linux/build-displayData-Desktop_Qt_5_12_1_GCC_64bit-Debug/moc_predefs.h -I/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/home/daniel/GIT/smartHouse/C++/Linux/displayData -I/home/daniel/.Qt/5.12.1/gcc_64/include -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtNetwork -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../displayData/newcalendarwidget.h -o moc_newcalendarwidget.cpp
@@ -1524,16 +1891,126 @@ moc_qcustomplot.cpp: ../displayData/qcustomplot.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/bin/moc
 	/home/daniel/.Qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /home/daniel/GIT/smartHouse/C++/Linux/build-displayData-Desktop_Qt_5_12_1_GCC_64bit-Debug/moc_predefs.h -I/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/home/daniel/GIT/smartHouse/C++/Linux/displayData -I/home/daniel/.Qt/5.12.1/gcc_64/include -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtNetwork -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../displayData/qcustomplot.h -o moc_qcustomplot.cpp
 
+moc_selectinvervaldailog.cpp: ../displayData/selectinvervaldailog.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QDialog \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdialog.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmargins.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrect.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsize.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpalette.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcolor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgb.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qbrush.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qregion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtransform.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qimage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfont.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcursor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariant.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdebug.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlocale.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qset.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtouchdevice.h \
+		moc_predefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/bin/moc
+	/home/daniel/.Qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /home/daniel/GIT/smartHouse/C++/Linux/build-displayData-Desktop_Qt_5_12_1_GCC_64bit-Debug/moc_predefs.h -I/home/daniel/.Qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/home/daniel/GIT/smartHouse/C++/Linux/displayData -I/home/daniel/.Qt/5.12.1/gcc_64/include -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtNetwork -I/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../displayData/selectinvervaldailog.h -o moc_selectinvervaldailog.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_make_all: ui_mainwindow.h ui_selectinvervaldailog.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h
+	-$(DEL_FILE) ui_mainwindow.h ui_selectinvervaldailog.h
 ui_mainwindow.h: ../displayData/mainwindow.ui \
 		/home/daniel/.Qt/5.12.1/gcc_64/bin/uic \
 		../displayData/qcustomplot.h \
+		../displayData/newcalendarwidget.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
@@ -2030,8 +2507,123 @@ ui_mainwindow.h: ../displayData/mainwindow.ui \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QPair \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qprintpreviewdialog.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qprintpreviewwidget.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qtprintsupportversion.h
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qtprintsupportversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QCalendarWidget \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcalendarwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmargins.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrect.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsize.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpalette.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcolor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgb.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qbrush.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qregion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtransform.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qimage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfont.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcursor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariant.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdebug.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlocale.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qset.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QColor \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDate \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPen \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpen.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QBrush \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVector
 	/home/daniel/.Qt/5.12.1/gcc_64/bin/uic ../displayData/mainwindow.ui -o ui_mainwindow.h
+
+ui_selectinvervaldailog.h: ../displayData/selectinvervaldailog.ui \
+		/home/daniel/.Qt/5.12.1/gcc_64/bin/uic
+	/home/daniel/.Qt/5.12.1/gcc_64/bin/uic ../displayData/selectinvervaldailog.ui -o ui_selectinvervaldailog.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -2419,13 +3011,162 @@ main.o: ../displayData/main.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVector \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDateTime \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QTimer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QSqlDatabase \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsql-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSql \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSqlDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCore \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydatapointer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborvalue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborcommon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/quuid.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcbormap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfloat16.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcollator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdir.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qendian.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qexception.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QStringList \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuture.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qisenum.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocess.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qqueue.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrandom.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qresource.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopeguard.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsettings.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstack.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthread.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriver.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlerror.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlfield.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlindex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrecord.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyle.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlistview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcombobox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlresult.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QTimer \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QApplication \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qapplication.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qguiapplication.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qinputmethod.h
@@ -2543,90 +3284,17 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVector \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDateTime \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QTimer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasictimer.h \
-		ui_mainwindow.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVariant \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QApplication \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qapplication.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qguiapplication.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qinputmethod.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QCalendarWidget \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcalendarwidget.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QGridLayout \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlayout.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QLabel \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlabel.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qframe.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QPushButton \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QStatusBar \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QWidget \
-		../displayData/qcustomplot.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QPointer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpointer.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QSharedPointer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPainter \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainter.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtextoption.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpen.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPaintEvent \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QMouseEvent \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QWheelEvent \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPixmap \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QString \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QMultiMap \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QFlags \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDebug \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QStack \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstack.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QCache \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcache.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QMargins \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmath.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QOpenGLContext \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglcontext.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QScopedPointer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QSurfaceFormat \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qsurfaceformat.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopengl.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qt_windows.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopengles2ext.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglext.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QOpenGLFramebufferObject \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QOffscreenSurface \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qoffscreensurface.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qsurface.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QWindow \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindow.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QEvent \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QRect \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/QGLPixelBuffer \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qglpixelbuffer.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qgl.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintengine.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qglcolormap.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qtopenglglobal.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtNumeric \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/QtPrintSupport \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/QtPrintSupportDepends \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QSqlDatabase \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldatabase.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsql-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSql \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/QtSqlDepends \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCore \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtCoreDepends \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractanimation.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qabstractproxymodel.h \
@@ -2635,9 +3303,11 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qanimationgroup.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydataops.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasictimer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbitarray.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbuffer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcache.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborarray.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborvalue.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcborcommon.h \
@@ -2649,6 +3319,7 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcollator.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineoption.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcryptographichash.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdeadlinetimer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qelapsedtimer.h \
@@ -2684,6 +3355,7 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlinkedlist.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlockfile.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmath.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetaobject.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmimedata.h \
@@ -2694,6 +3366,7 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpauseanimation.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpointer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpluginloader.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocess.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpropertyanimation.h \
@@ -2713,6 +3386,7 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsignaltransition.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsocketnotifier.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstack.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstandardpaths.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstate.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstatemachine.h \
@@ -2727,6 +3401,7 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadpool.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qthreadstorage.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtimezone.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtranslator.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypetraits.h \
@@ -2734,6 +3409,108 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qwineventnotifier.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qxmlstream.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriver.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlerror.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlfield.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlindex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrecord.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyle.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlistview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcombobox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqltablemodel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qsqlresult.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtSql/qtsqlversion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QTimer \
+		ui_mainwindow.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVariant \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QApplication \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qguiapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QGridLayout \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlayout.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QLabel \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QPushButton \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QWidget \
+		../displayData/newcalendarwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QCalendarWidget \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcalendarwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QColor \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDate \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPen \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpen.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QBrush \
+		../displayData/qcustomplot.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QPointer \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QSharedPointer \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPainter \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainter.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPaintEvent \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QMouseEvent \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QWheelEvent \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPixmap \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QString \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QMultiMap \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QFlags \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDebug \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QStack \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QCache \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QMargins \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QOpenGLContext \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglcontext.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QScopedPointer \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QSurfaceFormat \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopengl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qt_windows.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopengles2ext.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QOpenGLFramebufferObject \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QOffscreenSurface \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qoffscreensurface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qsurface.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QWindow \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindow.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QEvent \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QRect \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/QGLPixelBuffer \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qglpixelbuffer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qgl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintengine.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qglcolormap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtOpenGL/qtopenglglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QtNumeric \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/QtPrintSupport \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/QtPrintSupportDepends \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QtGui \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QtGuiDepends \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
@@ -2808,20 +3585,9 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtextdocumentwriter.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtextlist.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtexttable.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvalidator.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtguiversion.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QtWidgets \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QtWidgetsDepends \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qslider.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyle.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qaccessiblewidget.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qaction.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qactiongroup.h \
@@ -2831,7 +3597,6 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdialog.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcolormap.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcolumnview.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcombobox.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcommandlinkbutton.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcommonstyle.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcompleter.h \
@@ -2873,12 +3638,10 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qheaderview.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qinputdialog.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlineedit.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qitemdelegate.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qitemeditorfactory.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qkeyeventtransition.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qkeysequenceedit.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlcdnumber.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlistview.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qlistwidget.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qmdiarea.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qmdisubwindow.h \
@@ -2907,6 +3670,7 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qsplitter.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstackedlayout.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstackedwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstatusbar.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstyleditemdelegate.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstylefactory.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qstylepainter.h \
@@ -2940,13 +3704,13 @@ mainwindow.o: ../displayData/mainwindow.cpp ../displayData/mainwindow.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QPair \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qprintpreviewdialog.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qprintpreviewwidget.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qtprintsupportversion.h
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qtprintsupportversion.h \
+		../displayData/selectinvervaldailog.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QDialog
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../displayData/mainwindow.cpp
 
-newcalendarwidget.o: ../displayData/newcalendarwidget.cpp ../displayData/newcalendarwidget.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QCalendarWidget \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcalendarwidget.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+newcalendarwidget.o: ../displayData/newcalendarwidget.cpp /home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPainter \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainter.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtguiglobal.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
@@ -2970,67 +3734,73 @@ newcalendarwidget.o: ../displayData/newcalendarwidget.cpp ../displayData/newcale
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtgui-config.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrect.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmargins.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsize.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintdevice.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcolor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgb.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstring.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qchar.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlist.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpair.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmargins.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrect.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsize.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpalette.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcolor.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgb.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgba64.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qbrush.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvector.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qmatrix.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpolygon.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qregion.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatastream.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qline.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtransform.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainterpath.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qimage.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixelformat.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixmap.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhash.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qimage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtransform.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qregion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpen.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qbrush.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontinfo.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfont.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontinfo.h \
+		../displayData/newcalendarwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QCalendarWidget \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcalendarwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpalette.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qsizepolicy.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcursor.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qkeysequence.h \
@@ -3048,7 +3818,12 @@ newcalendarwidget.o: ../displayData/newcalendarwidget.cpp ../displayData/newcale
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfiledevice.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvector2d.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QColor \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QDate \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QPen \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/QBrush \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVector
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o newcalendarwidget.o ../displayData/newcalendarwidget.cpp
 
 qcustomplot.o: ../displayData/qcustomplot.cpp ../displayData/qcustomplot.h \
@@ -3551,6 +4326,137 @@ qcustomplot.o: ../displayData/qcustomplot.cpp ../displayData/qcustomplot.h \
 		/home/daniel/.Qt/5.12.1/gcc_64/include/QtPrintSupport/qtprintsupportversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qcustomplot.o ../displayData/qcustomplot.cpp
 
+selectinvervaldailog.o: ../displayData/selectinvervaldailog.cpp ../displayData/selectinvervaldailog.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QDialog \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdialog.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmargins.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qrect.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsize.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpalette.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcolor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgb.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qbrush.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvector.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qregion.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qline.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtransform.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qimage.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qhash.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfont.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qcursor.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qevent.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qvariant.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qmap.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdebug.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qlocale.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qset.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurl.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfile.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qtouchdevice.h \
+		ui_selectinvervaldailog.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QVariant \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QApplication \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qguiapplication.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QCalendarWidget \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qcalendarwidget.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QFrame \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QPushButton \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qicon.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/QTimeEdit \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qdatetimeedit.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/daniel/.Qt/5.12.1/gcc_64/include/QtCore/QLocale
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o selectinvervaldailog.o ../displayData/selectinvervaldailog.cpp
+
 moc_databaseprocessing.o: moc_databaseprocessing.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_databaseprocessing.o moc_databaseprocessing.cpp
 
@@ -3562,6 +4468,9 @@ moc_newcalendarwidget.o: moc_newcalendarwidget.cpp
 
 moc_qcustomplot.o: moc_qcustomplot.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qcustomplot.o moc_qcustomplot.cpp
+
+moc_selectinvervaldailog.o: moc_selectinvervaldailog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_selectinvervaldailog.o moc_selectinvervaldailog.cpp
 
 ####### Install
 

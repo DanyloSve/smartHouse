@@ -33,17 +33,31 @@ class MainWindow : public QMainWindow
     void displayAverageData();
     void displayClock();
     void createTimeAxis();
+    void disconnectAllSignals();
+    void connectAllSignals();
+
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
 
+    void displayInterval(QDateTime start, QDateTime end);
 
 private slots:
     void on_btnClock_clicked();
 
     void on_calendarWidget_clicked(const QDate &date);
+
+    void on_bttnBack_clicked();
+
+    void on_bttnReturn_clicked();
+
+    void on_bttnForward_clicked();
+
+    void on_btnAverageData_clicked();
+
 
 private:
     Ui::MainWindow *ui;

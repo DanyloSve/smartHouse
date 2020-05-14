@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SelectInvervalDailog</class>
+ <widget class="QDialog" name="SelectInvervalDailog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>659</width>
+    <height>401</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QCalendarWidget" name="calendarWidgetStart">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>60</y>
+     <width>321</width>
+     <height>181</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QCalendarWidget" name="calendarWidgetEnd">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>60</y>
+     <width>321</width>
+     <height>181</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>0</y>
+     <width>20</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="BttnSet">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>350</y>
+     <width>661</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Виберіть час і дату</string>
+   </property>
+  </widget>
+  <widget class="QTimeEdit" name="timeEditStart">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>280</y>
+     <width>118</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTimeEdit" name="timeEditEnd">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>280</y>
+     <width>118</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
