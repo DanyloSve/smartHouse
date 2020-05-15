@@ -2,7 +2,7 @@
 #define SELECTINVERVALDAILOG_H
 
 #include <QDialog>
-#include <QDateTime>
+#include <QDate>
 
 namespace Ui {
 class SelectInvervalDailog;
@@ -17,7 +17,7 @@ public:
     ~SelectInvervalDailog();
 
 signals:
-    void sGetDateTimeInterval(QDateTime start, QDateTime end);
+    void sGetDateTimeInterval(QDate start, QDate end);
 
 private slots:
 
@@ -25,12 +25,7 @@ private slots:
 
     void on_calendarWidgetEnd_selectionChanged();
 
-    void on_timeEditStart_timeChanged(const QTime &time);
-
     void showSelectedDateTime();
-
-    void on_timeEditEnd_timeChanged(const QTime &time);
-
 
     void on_BttnSet_clicked();
 

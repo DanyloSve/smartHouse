@@ -59,9 +59,13 @@ void MainWindow::displayTemperature()
 
     ui->pltTempr->graph(0)->rescaleAxes(true);
 
-    ui->pltTempr->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] + (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) /(2* mDataBase->getDateTime().size()));
+    ui->pltTempr->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] +
+            (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) /
+            (2* mDataBase->getDateTime().size()));
     QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
-    dateTicker->setDateTimeFormat("hh:mm\n");
+
+    (mDataBase->showDate())?(dateTicker->setDateTimeFormat("dd-MM-yyyy\n")):(dateTicker->setDateTimeFormat("hh:mm\n"));
+
     ui->pltTempr->xAxis->setTicker(dateTicker);
     ui->pltTempr->xAxis->ticker()->setTickCount(mDataBase->getTickNumberX());
 
@@ -89,7 +93,8 @@ void MainWindow::displayHumidity()
     ui->pltHum->graph(0)->rescaleAxes(true);
      ui->pltHum->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] + (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) / (2* mDataBase->getDateTime().size()));
     QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
-    dateTicker->setDateTimeFormat("hh:mm\n");
+    (mDataBase->showDate())?(dateTicker->setDateTimeFormat("dd-MM-yyyy\n")):(dateTicker->setDateTimeFormat("hh:mm\n"));
+
     ui->pltHum->xAxis->setTicker(dateTicker);
     ui->pltHum->xAxis->ticker()->setTickCount(mDataBase->getTickNumberX());
     ui->pltHum->yAxis->setNumberFormat("f");
@@ -114,7 +119,8 @@ void MainWindow::displayPressure()
     ui->pltPress->graph(0)->rescaleAxes(true);
     ui->pltPress->xAxis->setRange(mDataBase->getRangeX()[0], mDataBase->getRangeX()[1] + (mDataBase->getRangeX()[1] - mDataBase->getRangeX()[0]) /(2* mDataBase->getDateTime().size()));
     QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
-    dateTicker->setDateTimeFormat("hh:mm\n");
+    (mDataBase->showDate())?(dateTicker->setDateTimeFormat("dd-MM-yyyy\n")):(dateTicker->setDateTimeFormat("hh:mm\n"));
+
     ui->pltPress->xAxis->setTicker(dateTicker);
     ui->pltPress->xAxis->ticker()->setTickCount(mDataBase->getTickNumberX());
 
@@ -209,11 +215,12 @@ void MainWindow::connectAllSignals()
     mUpdateClock->start(cmUpdateClockTimeMs);
 }
 
-void MainWindow::displayInterval(QDateTime start, QDateTime end)
+void MainWindow::displayInterval(QDate start, QDate end)
 {
-    QDateTime tmpStrt = start;
-    QDateTime tmpEnd = end;
     mDataBase->readInterval(start, end);
+
+    displayAllData();
+    displayClock();
 }
 
 
@@ -245,10 +252,7 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
         displayAllData();
         displayClock();
     }
-//    else
-//    {
-//        on_btnClock_clicked();
-//    }
+
 }
 
 void MainWindow::on_bttnReturn_clicked()

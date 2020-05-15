@@ -75,7 +75,7 @@ static const uint qt_meta_data_MainWindow[] = {
       11,    0,   61,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QDateTime, QMetaType::QDateTime,    3,    4,
+    QMetaType::Void, QMetaType::QDate, QMetaType::QDate,    3,    4,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QDate,    7,
     QMetaType::Void,
@@ -92,7 +92,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->displayInterval((*reinterpret_cast< QDateTime(*)>(_a[1])),(*reinterpret_cast< QDateTime(*)>(_a[2]))); break;
+        case 0: _t->displayInterval((*reinterpret_cast< QDate(*)>(_a[1])),(*reinterpret_cast< QDate(*)>(_a[2]))); break;
         case 1: _t->on_btnClock_clicked(); break;
         case 2: _t->on_calendarWidget_clicked((*reinterpret_cast< const QDate(*)>(_a[1]))); break;
         case 3: _t->on_bttnBack_clicked(); break;

@@ -43,7 +43,7 @@ public:
 
 public slots:
 
-    void displayInterval(QDateTime start, QDateTime end);
+    void displayInterval(QDate start, QDate end);
 
 private slots:
     void on_btnClock_clicked();
