@@ -62,6 +62,7 @@ public:
     void scrollForward();
     void scrollBack();
     bool showDate();
+    QVector <double> getTimeAxis();
 
 signals:
     void sDatabaseUpdate();

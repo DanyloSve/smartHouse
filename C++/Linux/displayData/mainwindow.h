@@ -32,7 +32,6 @@ class MainWindow : public QMainWindow
     double average(QVector<double> data);
     void displayAverageData();
     void displayClock();
-    void createTimeAxis();
     void disconnectAllSignals();
     void connectAllSignals();
 

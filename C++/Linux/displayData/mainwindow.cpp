@@ -34,7 +34,7 @@ void MainWindow::receiveLastData()
 
 void MainWindow::displayAllData()
 {
-    createTimeAxis();
+    mTimeAxis = mDataBase->getTimeAxis();
     if (!mTimeAxis.isEmpty() &&
             !mDataBase->getTemperature().isEmpty() &&
             !mDataBase->getHumidity().isEmpty() &&
@@ -182,23 +182,6 @@ void MainWindow::displayClock()
     }
 }
 
-void MainWindow::createTimeAxis()
-{
-    if (!mDataBase->getDateTime().isEmpty())
-    {
-
-        if (!mTimeAxis.isEmpty())
-        {
-            mTimeAxis.erase(mTimeAxis.begin(), mTimeAxis.end());
-        }
-
-
-        for (QDateTime time : mDataBase->getDateTime())
-        {
-            mTimeAxis.push_back(time.toTime_t());
-        }
-    }
-}
 
 void MainWindow::disconnectAllSignals()
 {

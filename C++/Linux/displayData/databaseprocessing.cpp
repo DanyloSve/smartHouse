@@ -610,4 +610,18 @@ bool DataBaseProcessing::showDate()
     return mToShowDate;
 }
 
+QVector<double> DataBaseProcessing::getTimeAxis()
+{
+    QVector<double> timeAxis;
+    if (!mDateTime.isEmpty())
+    {
+        for (QDateTime time : mDateTime)
+        {
+            timeAxis.push_back(time.toTime_t());
+        }
+    }
+
+    return timeAxis;
+}
+
 
