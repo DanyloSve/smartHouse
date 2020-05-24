@@ -11,7 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QDateTime currentTime = QDateTime::currentDateTime();
+    QLocale locale = {QLocale::Ukrainian};
+    ui->calendarWidget->setLocale(locale);
     mDataBase = new DataBaseProcessing;
+    this->setWindowTitle("Meteostation data");
+    ui->calendarWidget->setSelectedDate(currentTime.date());
 
     if (mDataBase->connectToServer())
     {

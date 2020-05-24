@@ -8,6 +8,9 @@ SelectInvervalDailog::SelectInvervalDailog(QWidget *parent) :
     ui(new Ui::SelectInvervalDailog)
 {
     ui->setupUi(this);
+    QLocale locale = {QLocale::Ukrainian};
+    ui->calendarWidgetEnd->setLocale(locale);
+    ui->calendarWidgetStart->setLocale(locale);
 }
 
 SelectInvervalDailog::~SelectInvervalDailog()
@@ -29,7 +32,7 @@ void SelectInvervalDailog::showSelectedDateTime()
 {
       QLocale locale;
       ui->BttnSet->setText("З " + locale.toString(ui->calendarWidgetStart->selectedDate(), "dd.MM.yyyy") + " " +
-                          "до"  +locale.toString(ui->calendarWidgetEnd->selectedDate(), "dd.MM.yyyy"));
+                          " "+"до" + " " +locale.toString(ui->calendarWidgetEnd->selectedDate(), "dd.MM.yyyy"));
 }
 
 void SelectInvervalDailog::on_BttnSet_clicked()

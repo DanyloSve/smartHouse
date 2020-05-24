@@ -335,13 +335,13 @@ void DataBaseProcessing::readInterval(QDate &start, QDate &end)
         mRangeX.push_back(tmpStart.toTime_t());
         mRangeX.push_back(tmpEnd.toTime_t());
 
-        if ( (end.day() - start.day()) <= cmIntervalDataNumber)
+        if ( (end.day() - start.day()) < cmIntervalDataNumber)
         {
             mTickNumberX = end.day() - start.day();
         }
         else
         {
-         mTickNumberX = cmIntervalDataNumber;
+            mTickNumberX = cmIntervalDataNumber;
         }
 
         mId = tmpId;

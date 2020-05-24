@@ -28,10 +28,10 @@ class DataBaseProcessing : public QObject
 
     uint mTickNumberX;
     int mTickNumberY;
-    const int cmDataNumberLastInsert{12};
-    const int cmDataNumberDay{12};
-    const int cmMaxDataNumber{24};
-    const int cmIntervalDataNumber{9};
+    const uint cmDataNumberLastInsert{12};
+    const uint cmDataNumberDay{12};
+    const uint cmMaxDataNumber{24};
+    const uint cmIntervalDataNumber{8};
 
     bool mToShowDate;
 
